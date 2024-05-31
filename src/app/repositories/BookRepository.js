@@ -14,7 +14,7 @@ class BookRepository{
         }
     }
 
-    async findeAll(){
+    async findAll(){
         try {
             const sql = `SELECT * FROM tbl_livros;`;
             return await consulta(sql, 'Não foi possivel Localizar');
@@ -24,9 +24,9 @@ class BookRepository{
         }
     }
 
-    async findById(id){
+    async findById (id){
         try {
-            const sql = `SELECT * FROM tbl_livros WHERE id_livro=?;`;
+            const sql = `SELECT * FROM tbl_livros WHERE id=?;`;
             return await consulta(sql, id, 'Não foi possivel Localizar');
         } catch (error) {
             console.error('Erro no método findById:', error.message);
@@ -36,7 +36,7 @@ class BookRepository{
 
     async update(livro, id){
         try {
-            const sql = `UPDATE tbl_livros SET ? WHERE id_livro=?;`;
+            const sql = `UPDATE tbl_livros SET ? WHERE id=?;`;
             return await consulta(sql, [livro, id], 'Não foi possivel Atualizar');
         } catch (error) {
             console.error('Erro no método update:', error.message);
@@ -46,7 +46,7 @@ class BookRepository{
 
     async delete(id){
         try {
-            const sql = `DELETE FROM tbl_livros WHERE id_livro=?;`;
+            const sql = `DELETE FROM tbl_livros WHERE id=?;`;
             return await consulta(sql, id, 'Não foi possivel Apagar!');
         } catch (error) {
             console.error('Erro no método delete:', error.message);
