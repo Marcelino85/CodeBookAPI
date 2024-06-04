@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server.js",
+    "vercel-build": "npx app deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
