@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import {useState} from 'react'
 import axios from 'axios'
-
+import {Link} from 'react-router-dom'
 const Books = () => {
   
     const [livros,setLivros] = useState([])
@@ -30,13 +30,19 @@ const Books = () => {
           <div className="book" key={book.id}>
             {book.bookCover && <img src={book.bookCover} alt=''/>}
             <h2>{book.title}</h2>
-            <p>{book.author}</p>
-            <p>{book.descriptions}</p>
-            <p>{book.indication}</p>
+            <p><strong>Autor:</strong> {book.author}</p>
+            <p><strong>Descrição:</strong> {book.descriptions}</p>
+            <p><strong>Indicação:</strong> {book.indication}</p>
+            
+           
+            
 
           </div>
         ))}
       </div>
+
+        <button><Link to={"/add"}>Add New Book</Link></button>
+
     </div>
   )
 }
