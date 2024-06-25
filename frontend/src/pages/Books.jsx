@@ -21,6 +21,15 @@ const Books = () => {
       fecthAllBooks()
 
     },[])
+
+    const handleDelete = async (id)=>{
+      try{
+        await axios.delete(`http://localhost:3006/livros/${id}`)
+        window.location.reload()
+      }catch (err){
+        console.log(err)
+      }
+    }
   
   return (
     <div>
@@ -33,10 +42,9 @@ const Books = () => {
             <p><strong>Autor:</strong> {book.author}</p>
             <p><strong>Descrição:</strong> {book.descriptions}</p>
             <p><strong>Indicação:</strong> {book.indication}</p>
-            
-           
-            
 
+            <button className="delete" onClick={()=>handleDelete(book.id)}>Deletar</button>
+            <button className="update">Atualizar</button>
           </div>
         ))}
       </div>
