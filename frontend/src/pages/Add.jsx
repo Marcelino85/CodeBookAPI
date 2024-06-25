@@ -42,7 +42,7 @@ const Add = () => {
       <input type="text" placeholder='Capa' onChange={handleChange} name='bookCover'/>
       <input type="text" placeholder='link' onChange={handleChange} name='img'/>
 
-      <button onClick={handleClick}>Add</button>
+      <button className='formButton' onClick={handleClick}>Add</button>
     </div>
   )
 }

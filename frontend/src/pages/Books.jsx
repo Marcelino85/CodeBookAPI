@@ -44,7 +44,7 @@ const Books = () => {
             <p><strong>Indicação:</strong> {book.indication}</p>
 
             <button className="delete" onClick={()=>handleDelete(book.id)}>Deletar</button>
-            <button className="update">Atualizar</button>
+            <button className="update"><Link to={`/update/${book.id}`} >Atualizar</Link></button>
           </div>
         ))}
       </div>
