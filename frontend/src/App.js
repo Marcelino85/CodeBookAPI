@@ -1,8 +1,10 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-import Books from "./pages/Books";
-import Add from "./pages/Add";
-import Update from "./pages/Update";
+import Books from "./pages/Livros/Books";
+import Add from "./pages/AdcionarLivros/Add";
+import Update from "./pages/AtualizarLivros/Update";
 import './App.css'
+import Login from "./pages/Login/Loginn";
+
 
 
 
@@ -11,7 +13,8 @@ function App() {
     <div className="App">
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Books/>}/>
+        <Route path="/" element={<Login/>}/>
+        <Route path="/livros" element={<Books/>}/>
         <Route path="/add" element={<Add/>}/>
         <Route path="/update/:id" element={<Update/>}/>
       </Routes>

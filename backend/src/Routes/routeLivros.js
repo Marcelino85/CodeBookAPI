@@ -1,5 +1,6 @@
 import { Router } from "express";
-import BookController from "./app/controllers/BookController.js";
+import BookController from "../app/controllers/BookController.js";
+
 const routes = Router()
 
 // ROTAS (CRUD)

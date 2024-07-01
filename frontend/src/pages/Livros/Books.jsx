@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import {useState} from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+
 const Books = () => {
   
     const [livros,setLivros] = useState([])
@@ -32,7 +33,8 @@ const Books = () => {
     }
   
   return (
-    <div>
+  
+    <div >
       <h1>Meus Livros</h1>
       <div className='books'>
         {livros.map(book=>(
@@ -47,11 +49,11 @@ const Books = () => {
             <button className="update"><Link to={`/update/${book.id}`} >Atualizar</Link></button>
           </div>
         ))}
+        
       </div>
-
-        <button><Link to={"/add"}>Add New Book</Link></button>
-
+        <button className='btn'><Link to={"/add"}>Add New Book</Link></button>
     </div>
+       
   )
 }
 
