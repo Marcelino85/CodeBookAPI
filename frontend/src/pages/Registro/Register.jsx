@@ -2,31 +2,32 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setToken }) => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Tentando fazer login com:', { username, password });
+    setError('');
+    setSuccess('');
+    console.log('Tentando registrar com:', { username, password });
     try {
-      const response = await axios.post('http://localhost:3006/api/users/login', { username, password });
+      const response = await axios.post('http://localhost:3006/api/users/register', { username, password });
       console.log('Resposta do servidor:', response.data);
-      setToken(response.data.token);
-      navigate('/livros');
-
-      
+      setSuccess('Usuário registrado com sucesso! Você pode fazer login agora.');
+      setTimeout(() => navigate('/login'), 3000); // Redirecionar após 3 segundos
     } catch (error) {
-      console.error('Erro ao fazer login:', error.response?.data?.message || error.message);
-      setError(error.response?.data?.message || 'Erro ao fazer login. Por favor, tente novamente.');
+      console.error('Erro ao registrar:', error.response?.data?.error || error.message);
+      setError(error.response?.data?.error || 'Erro ao registrar. Por favor, tente novamente.');
     }
   };
 
   return (
-    <div className='containerLogin'>
-      <h1>Login</h1>
+    <div className='containerRegister'>
+      <h1>Registrar-se</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -42,13 +43,13 @@ const Login = ({ setToken }) => {
           placeholder="Password"
           required
         />
-        <button type="submit">Entrar</button><br />
+        <button type="submit">Registrar</button><br />
         {error && <p className="error">{error}</p>}
-        <button onClick={() => navigate('/register')}>Registrar-se</button>
+        {success && <p className="success">{success}</p>}
+        <button onClick={() => navigate('/login')}>Já tem uma conta? Faça login</button>
       </form>
     </div>
   );
 };
 
-export default Login;
-
+export default Register;
