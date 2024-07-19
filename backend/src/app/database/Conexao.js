@@ -1,4 +1,5 @@
 import mysql from 'mysql2'
+
 const conexao = mysql.createConnection({
     host:'localhost',
     port:'3306',
@@ -15,6 +16,7 @@ conexao.connect()
  * @param {string} mensagemReject mensagem a ser exibida
  * @returns objeto da Promise
  */
+
 
 export const consulta = (sql, valores='', mensagemReject)=>{
     return new Promise((resolve, reject)=>{

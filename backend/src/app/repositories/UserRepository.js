@@ -1,30 +1,32 @@
-// const connection = require('../database/Conexao.js');
-const bcrypt = require('bcryptjs');
-import {consulta} from '../database/Conexao.js'
+import bcrypt from 'bcryptjs';
+import { consulta } from '../database/Conexao.js';
+import conexao from '../database/Conexao.js';
 
-class UserRepository{
-        
-    async create(user, callback) {
-      try{
+class UserRepository {
+    create(user) {
+    const { username, password } = user;
+     try {
+      const sql = 'INSERT INTO usuarios (username, password) VALUES (?, ?)';
+      const results = conexao.query(sql, [username, password]);
+      console.log('Usuário registrado com sucesso');
+      return results;
+  } catch (error) {
+      console.error('Erro no método create:', error.message);
+      throw new Error('Erro ao criar usuário.');
+    }
+  }
 
-        const { username, password } = user;
-        bcrypt.hash(password, 10,  async (err, hash) => {
-          if (err) throw err;
-          const sql = 'INSERT INTO usuarios (username, password) VALUES (?, ?)';
-          return await consulta(sql, [username, hash], callback);
-        });
-      } catch(error){
-        console.error('Erro no método create:', error.message);
-            throw new Error('Erro ao criar Usuário');
-      }
-    };
-    
-    async findByUsername(username, callback){
-      try{
-        const sql = 'SELECT * FROM usuarios WHERE username = ?';
-        return await consulta(sql, [username], callback);
-      }catch(error){}
-    };
-    
-  };
-module.exports = UserRepository;
+  async findByUsername(username) {
+    try {
+      const sql = 'SELECT * FROM usuarios WHERE username = ?';
+      const rows = await consulta(sql, [username]);
+      return rows;
+    } catch (error) {
+      console.error('Erro no método findByUsername:', error.message);
+      throw error;
+    }
+  }
+}
+
+export default UserRepository;
+

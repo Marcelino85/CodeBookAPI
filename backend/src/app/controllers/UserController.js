@@ -1,32 +1,56 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/User.js');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+import UserRepository from '../repositories/UserRepository.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
-router.post('/register', (req, res) => {
-  const newUser = req.body;
-  User.create(newUser, (err, result) => {
-    if (err) return res.status(500).send('Server error');
-    res.status(201).send('User registered!');
-  });
-});
+const userRepository = new UserRepository();
 
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  User.findByUsername(username, (err, results) => {
-    if (err) return res.status(500).send('Server error');
-    if (results.length === 0) return res.status(401).send('User not found');
+class UserController {
+
+  register(req, res) {
+    const { username, password } = req.body;
+    const newUser = { username, password };
     
-    const user = results[0];
-    bcrypt.compare(password, user.password, (err, isMatch) => {
-      if (err) return res.status(500).send('Server error');
-      if (!isMatch) return res.status(401).send('Invalid password');
+    try {
+      // return res.status(500).send('Erro no servidor');
+      const results = userRepository.create(newUser);
+      res.status(201).json({ message: 'Usuário criado com sucesso!'});
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 
-      const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
-      res.json({ token });
-    });
-  });
-});
+  async login(req, res) {
+    const { username, password } = req.body;
 
-module.exports = router;
+    try {
+      await userRepository.findByUsername(username, (err, results) => {
+        if (err) {
+          console.error('Erro ao buscar usuário:', err);
+          return res.status(500).send('Erro no servidor');
+        }
+        if (results.length === 0) {
+          return res.status(401).json({ message: 'Usuário não cadastrado. Por favor, registre-se.' });
+        }
+
+        const user = results[0];
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (err) {
+            console.error('Erro ao comparar senha:', err);
+            return res.status(500).send('Erro no servidor');
+          }
+          if (!isMatch) {
+            return res.status(401).json({ message: 'Senha incorreta. Por favor, tente novamente.' });
+          }
+
+          const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
+          return res.json({ token });
+        });
+      });
+    } catch (error) {
+      console.error('Erro no método login:', error);
+      return res.status(500).send('Erro no servidor');
+    }
+  }
+}
+
+export default new UserController();

@@ -1,15 +1,14 @@
-import express from 'express'
-import routes from './Routes/routeLivros.js';
+import express from 'express';
 import cors from 'cors';
+import userRoutes from './Routes/routeUsers.js';
+import bookRoutes from './Routes/routeLivros.js';
 
-const app = express()
-//indicar para o express ler
-app.use(express.json())
+const app = express();
 
-app.use(cors())
+app.use(cors());
+app.use(express.json());
 
-//user router depois do app.user(express.json())
-app.use(routes)
-
+app.use('/api/users', userRoutes);
+app.use('/api/livros', bookRoutes);
 
 export default app;
