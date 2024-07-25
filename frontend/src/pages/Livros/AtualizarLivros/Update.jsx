@@ -5,9 +5,9 @@ import {useNavigate} from 'react-router-dom'
 import {useLocation} from 'react-router-dom'
 
 const Update = () => {
-
+ console.log("Update")
   const [book, setBook] = useState({
-
+    
     title:'',
     author:'',
     descriptions:'',
@@ -28,7 +28,7 @@ const Update = () => {
   const handleClick = async e=>{
     e.preventDefault()
     try{
-      await axios.put("http://localhost:3006/livros/" + bookId, book)
+      await axios.put("http://localhost:3006/api/livros/" + bookId, book)
       navgate('/')
     }catch(err){
       console.log (err)
@@ -36,20 +36,20 @@ const Update = () => {
   }
 
   console.log(book)
-
-  return (
-    <div className='form'>
+  
+    return (
+      <div className='form'>
       <h1>Atualizar o Livro </h1>
-      <input type="text" placeholder='Titulo' onChange={handleChange} name='title'/>
-      <input type="text" placeholder='Autor' onChange={handleChange} name='author'/>
-      <input type="text" placeholder='Descrição' onChange={handleChange} name='descriptions'/>
-      <input type="text" placeholder='Indicação' onChange={handleChange} name='indication'/>
-      <input type="text" placeholder='Capa' onChange={handleChange} name='bookCover'/>
-      <input type="text" placeholder='link' onChange={handleChange} name='img'/>
-
+      <input type="text" placeholder='Titulo' onChange={handleChange} name='title'/> <br></br>
+      <input type="text" placeholder='Autor' onChange={handleChange} name='author'/> <br></br>
+      <input type="text" placeholder='Indicação' onChange={handleChange} name='indication'/><br></br>
+      <input type="text" placeholder='Capa' onChange={handleChange} name='bookCover'/><br></br>
+      <input type="text" placeholder='link' onChange={handleChange} name='img'/><br></br>
+      <textarea type="text" placeholder='Descrição' onChange={handleChange} name='descriptions'/><br></br>
+      
       <button className='formButton' onClick={handleClick}>Atualizar</button>
-    </div>
-  )
-}
+      </div>
+    )
+  }
 
 export default Update

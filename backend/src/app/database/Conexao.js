@@ -8,7 +8,10 @@ const conexao = mysql.createConnection({
     database:'bd_book'
 }) 
 
-conexao.connect()
+conexao.connect(err => {
+    if (err) throw err;
+    console.log('Database connected!');
+  })
 /**
  * executa um codigo sql com ou sem valores
  * @param {string} sql instrução sql a ser executada

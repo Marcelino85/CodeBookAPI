@@ -4,6 +4,7 @@ import Login from './pages/Login/Loginn';
 import Register from './pages/Registro/Register';
 import Home from './pages/Home/Home';
 import Books from './pages/Livros/Books';
+import Update from './pages/Livros/AtualizarLivros/Update'
 
 const App = () => {
   const [token, setToken] = useState('');
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/login" element={<Login setToken={setToken} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/livros" element={<Books token={token} />} />
+        <Route path="/livros/update/:id" element={<Update />} />
       </Routes>
     </Router>
   );

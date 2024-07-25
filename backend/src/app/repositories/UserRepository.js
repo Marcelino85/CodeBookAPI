@@ -16,14 +16,15 @@ class UserRepository {
     }
   }
 
-  async findByUsername(username) {
+  findByUsername(username, callback){
+    
     try {
       const sql = 'SELECT * FROM usuarios WHERE username = ?';
-      const rows = await consulta(sql, [username]);
+      const rows = conexao.query(sql, [username], callback);
       return rows;
     } catch (error) {
       console.error('Erro no método findByUsername:', error.message);
-      throw error;
+      throw new Error('Erro ao logar usuário.');
     }
   }
 }

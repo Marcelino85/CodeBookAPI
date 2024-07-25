@@ -15,7 +15,7 @@ const Books = ({ token }) => {
     } else {
       const fetchAllBooks = async () => {
         try {
-          const res = await axios.get('http://localhost:3006/livros', {
+          const res = await axios.get('http://localhost:3006/api/livros', {
             headers: { Authorization: `Bearer ${token}` },
           });
           setLivros(res.data);
@@ -31,7 +31,7 @@ const Books = ({ token }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3006/livros/${id}`, {
+       axios.delete(`http://localhost:3006/api/livros/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLivros(livros.filter(book => book.id !== id));
@@ -53,7 +53,7 @@ const Books = ({ token }) => {
             <p><strong>Indicação:</strong> {book.indication}</p>
 
             <button className="delete" onClick={() => handleDelete(book.id)}>Deletar</button>
-            <button className="update"><Link to={`/update/${book.id}`}>Atualizar</Link></button>
+            <button className="update"><Link to={`/livros/update/${book.id}`}>Atualizar</Link></button>
           </div>
         ))}
       </div>
