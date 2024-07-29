@@ -47,7 +47,7 @@ const Login = ({ setToken }) => {
         console.error('Erro ao registrar usuário:', err);
         setError('Usuário não cadastrado ou senha incorreta');
       };
-      await sleep(5000);
+      await sleep(2000);
       navigate('/livros'); // Redireciona para a página de livros
   };
 

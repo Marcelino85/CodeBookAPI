@@ -37,10 +37,12 @@ class BookController{
     async update(req, res) {
         try {
             const id = req.params.id;
-            const livro = req.body;
-            console.log('Dados recebidos no update:', { id, livro }); // Adicione este log
-            const row = await BookRepository.update(livro, id);
-            res.json(row);
+            const { title, author, descriptions, indication, bookCover, img } = req.body; // Desestruture os campos necessários do req.body
+            console.log('Dados recebidos no update:', { id, title, author, descriptions, indication, bookCover, img });
+
+            const updatedBook = { title, author, descriptions, indication, bookCover, img };
+            const rows = await BookRepository.update(updatedBook, id);
+            res.json(rows);
         } catch (error) {
             console.error('Erro no método update:', error.message);
             res.status(500).json({ error: 'Erro ao atualizar livro' });

@@ -46,18 +46,21 @@ const Books = ({ token }) => {
       <div className='books'>
         {livros.map(book => (
           <div className="book" key={book.id}>
+
             {book.bookCover && <img src={book.bookCover} alt='' />}
             <h2>{book.title}</h2>
             <p><strong>Autor:</strong> {book.author}</p>
             <p><strong>Descrição:</strong> {book.descriptions}</p>
             <p><strong>Indicação:</strong> {book.indication}</p>
+            <p><strong>Link:</strong> {book.img}</p>
+            
 
             <button className="delete" onClick={() => handleDelete(book.id)}>Deletar</button>
             <button className="update"><Link to={`/livros/update/${book.id}`}>Atualizar</Link></button>
           </div>
         ))}
       </div>
-      <button className='btn'><Link to={"/add"}>Adicionar Novo Livro</Link></button>
+      <button className='btn'><Link to={"/livros/add"}>Adicionar Novo Livro</Link></button>
     </div>
   );
 };
