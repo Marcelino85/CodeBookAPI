@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import './book.css'
 
 const Books = ({ token }) => {
   const [livros, setLivros] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
 
  
@@ -41,26 +43,47 @@ const Books = ({ token }) => {
   };
 
   return (
-    <div>
-      <h1>Meus Livros</h1>
-      <div className='books'>
+    <div className="container">
+      <div className="book-details">
+        {selectedBook && (
+          
+          <div className="book-item">
+            <div className="book-image">
+              <img src={selectedBook.bookCover} alt={selectedBook.title} />
+            </div>
+            <div className="book-info">
+              <ul>
+                <li><strong>Título:</strong> {selectedBook.title}</li>
+                <li><strong>Autor:</strong> {selectedBook.author}</li>
+                <li><strong>Descriptions:</strong> {selectedBook.descriptions}</li>
+                <li><strong>Público:</strong> {selectedBook.indication}</li>
+                <li>
+                  <button onClick={() => window.open(selectedBook.img, '_blank')}>
+                    Saiba mais
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="book-list">
+        <h2>Meus Livros</h2>
         {livros.map(book => (
-          <div className="book" key={book.id}>
-
-            {book.bookCover && <img src={book.bookCover} alt='' />}
-            <h2>{book.title}</h2>
-            <p><strong>Autor:</strong> {book.author}</p>
-            <p><strong>Descrição:</strong> {book.descriptions}</p>
-            <p><strong>Indicação:</strong> {book.indication}</p>
-            <p><strong>Link:</strong> {book.img}</p>
-            
-
-            <button className="delete" onClick={() => handleDelete(book.id)}>Deletar</button>
-            <button className="update"><Link to={`/livros/update/${book.id}`}>Atualizar</Link></button>
+          <div key={book.id} className="book-list-item">
+            <span
+              className="book-list-title"
+              onClick={() => setSelectedBook(book)}
+            >
+              {book.title}
+            </span>
+            <button onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
+            <button onClick={() => handleDelete(book.id)}>Excluir</button>
           </div>
         ))}
+        <button onClick={() => navigate('/livros/add')}>Adicionar Livro</button>
       </div>
-      <button className='btn'><Link to={"/livros/add"}>Adicionar Novo Livro</Link></button>
     </div>
   );
 };

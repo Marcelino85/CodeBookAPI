@@ -1,6 +1,6 @@
 import UserRepository from '../repositories/UserRepository.js';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+
 
 const userRepository = new UserRepository();
 
@@ -37,18 +37,7 @@ class UserController {
         console.log("Usuário logado!")
         const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
         res.json({ token });
-        // bcrypt.compare(password,user.password, (err, isMatch) => {
-        //   if (err) {
-        //     console.error('Erro ao comparar senha:', err);
-        //     return res.status(500).send('Erro no servidor');
-        //   }
-        //   if (!isMatch) {
-        //     return res.status(401).json({ message: 'Senha incorreta. Por favor, tente novamente.' });
-        //   }
-        //   console.log("Usuário logado!")
-        //   const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
-        //   res.json({ token });
-        // });
+     
       });
     } catch (error) {
       console.error('Erro no método login:', error);

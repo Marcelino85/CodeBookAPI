@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+
 import { consulta } from '../database/Conexao.js';
 import conexao from '../database/Conexao.js';
 
@@ -30,4 +30,3 @@ class UserRepository {
 }
 
 export default UserRepository;
-

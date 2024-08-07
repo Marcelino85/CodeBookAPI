@@ -52,12 +52,12 @@ const Login = ({ setToken }) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <Navbar />
 
-      <h1>Login</h1>
+      <h2>Login</h2>
 
-        <div id="mensage"></div>
+      {/* {message && <div id="mensage" style={{ color: message.startsWith('Erro') ? 'red' : 'green' }}>{message}</div>} */}
 
         <form onSubmit={handleSubmit}>
           <input
