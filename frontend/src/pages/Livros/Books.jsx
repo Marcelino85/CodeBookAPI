@@ -21,7 +21,7 @@ const Books = ({ token }) => {
             headers: { Authorization: `Bearer ${token}` },
           });
           setLivros(res.data);
-          console.log(res.data);
+          console.log(`AQUI ESTA OS DADDOS DO DATA: ${res.data}`);
         } catch (err) {
           console.log(err);
         }
@@ -49,16 +49,16 @@ const Books = ({ token }) => {
           
           <div className="book-item">
             <div className="book-image">
-              <img src={selectedBook.bookCover} alt={selectedBook.title} />
+              <img src={selectedBook.imageLink} alt={selectedBook.title} />
             </div>
             <div className="book-info">
               <ul>
                 <li><strong>Título:</strong> {selectedBook.title}</li>
                 <li><strong>Autor:</strong> {selectedBook.author}</li>
-                <li><strong>Descriptions:</strong> {selectedBook.descriptions}</li>
-                <li><strong>Público:</strong> {selectedBook.indication}</li>
+                <li><strong>Descriptions:</strong> {selectedBook.synopsis}</li>
+                <li><strong>Público:</strong> {selectedBook.audience}</li>
                 <li>
-                  <button onClick={() => window.open(selectedBook.img, '_blank')}>
+                  <button onClick={() => window.open(selectedBook.link, '_blank')}>
                     Saiba mais
                   </button>
                 </li>
@@ -82,7 +82,8 @@ const Books = ({ token }) => {
             <button onClick={() => handleDelete(book.id)}>Excluir</button>
           </div>
         ))}
-        <button onClick={() => navigate('/livros/add')}>Adicionar Livro</button>
+        <button className='btn'  onClick={() => navigate('/livros/add')}>Adicionar Livro</button>
+        <button className='btn' onClick={() => navigate('/login')}>Sair</button>
       </div>
     </div>
   );

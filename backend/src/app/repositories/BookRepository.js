@@ -3,10 +3,11 @@ import {consulta} from '../database/Conexao.js'
 class BookRepository{
 
     // CRUD
-    async create(livro){
+    async create(book, userId, callback){
         try {
-            const sql = `INSERT INTO tbl_livros SET ?;`
-            return await consulta(sql, livro, 'Não foi possivel cadastrar.')
+            const { title, author, synopsis, link, imageLink, audience } = book;
+            const sql = 'INSERT INTO books (title, author, synopsis, link, imageLink, audience, userId) VALUES (?, ?, ?, ?, ?, ?, ?)';
+            return await consulta(sql, [title, author, synopsis, link, imageLink, audience, userId], callback)
 
         } catch (error) {
             console.error('Erro no método create:', error.message);
@@ -14,40 +15,41 @@ class BookRepository{
         }
     }
 
-    async findAll(){
+    async findAllByUserId(userId){
         try {
-            const sql = `SELECT * FROM tbl_livros;`;
-            return await consulta(sql, 'Não foi possivel Localizar');
+            const sql = `SELECT * FROM books WHERE userId = ?;`;
+            return await consulta(sql, [userId]);
         } catch (error) {
-            console.error('Erro no método findAll:', error.message);
-            throw new Error('Erro ao buscar livros');
+            console.error('Erro no método findAllByUserId:', error.message);
+            throw new Error('Erro ao buscar do usuário');
         }
     }
 
-    async findById (id){
+    async findById (userId, callback){
         try {
-            const sql = `SELECT * FROM tbl_livros WHERE id=?;`;
-            return await consulta(sql, id, 'Não foi possivel Localizar');
+            const sql = 'SELECT * FROM books WHERE userId = ?';
+            return await consulta(sql, [userId], callback);
         } catch (error) {
             console.error('Erro no método findById:', error.message);
             throw new Error('Erro ao buscar livro');
         }
     }
 
-    async update(livro, id){
+    async update(book, id, callback){
         try {
-            const sql = `UPDATE tbl_livros SET ? WHERE id=?;`;
-            return await consulta(sql, [livro, id], 'Não foi possivel Atualizar');
+            const { title, author, synopsis, link, imageLink, audience } = book;
+            const sql = 'UPDATE books SET title = ?, author = ?, synopsis = ?, link = ?, imageLink = ?, audience = ? WHERE id = ?';
+            return await consulta(sql, [title, author, synopsis, link, imageLink, audience, id], callback);
         } catch (error) {
             console.error('Erro no método update:', error.message);
             throw new Error('Erro ao atualizar livro');
         }
     }
 
-    async delete(id){
+    async delete(id, callback){
         try {
-            const sql = `DELETE FROM tbl_livros WHERE id=?;`;
-            return await consulta(sql, id, 'Não foi possivel Apagar!');
+            const sql = 'DELETE FROM books WHERE id = ?';
+            return await consulta(sql, [id], callback);
         } catch (error) {
             console.error('Erro no método delete:', error.message);
             throw new Error('Erro ao deletar livro');

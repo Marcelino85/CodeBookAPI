@@ -6,7 +6,7 @@ class UserRepository {
     create(user) {
     const { username, password } = user;
      try {
-      const sql = 'INSERT INTO usuarios (username, password) VALUES (?, ?)';
+      const sql = 'INSERT INTO users (username, password) VALUES (?, ?)';
       const results = conexao.query(sql, [username, password]);
       console.log('Usuário registrado com sucesso');
       return results;
@@ -19,7 +19,7 @@ class UserRepository {
   findByUsername(username, callback){
     
     try {
-      const sql = 'SELECT * FROM usuarios WHERE username = ?';
+      const sql = 'SELECT * FROM users WHERE username = ?';
       const rows = conexao.query(sql, [username], callback);
       return rows;
     } catch (error) {

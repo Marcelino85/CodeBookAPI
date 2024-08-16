@@ -103,3 +103,7 @@
 .book-list-item button.delete:hover {
   background-color: #c82333;
 }
+
+.btn{
+  margin: 10px;
+}

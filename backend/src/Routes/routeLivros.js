@@ -1,9 +1,12 @@
 import { Router } from 'express';
 import BookController from '../app/controllers/BookController.js';
+import { authMiddleware } from '../app/Meddleware/authMiddleware.js'
 
 const bookRoutes = Router();
 
-// ROTAS (CRUD) para Livros
+// Aplicando o middleware a todas as rotas (CRUD) de livros
+bookRoutes.use(authMiddleware);
+
 bookRoutes.get('/', BookController.index);
 bookRoutes.get('/:id', BookController.show);
 bookRoutes.post('/', BookController.store);

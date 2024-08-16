@@ -3,7 +3,8 @@ import BookRepository from "../repositories/BookRepository.js";
 class BookController{
     async index(req, res) {
         try {
-            const row = await BookRepository.findAll();
+           
+            const row = await BookRepository.findAllByUserId(req.userId);
             res.json(row);
         } catch (error) {
             console.error('Erro no método index:', error.message);
@@ -13,8 +14,11 @@ class BookController{
 
     async show(req, res) {
         try {
-            const id = req.params.id;
-            const row = await BookRepository.findById(id);
+            
+            const row = await BookRepository.findById(req.userId, (err, results) => {
+                if (err) return res.status(500).send('Server error');
+                res.json(results);
+              });
             res.json(row);
         } catch (error) {
             console.error('Erro no método show:', error.message);
@@ -26,7 +30,10 @@ class BookController{
         try {
             const livro = req.body;
             console.log('Dados recebidos no store:', livro); // Adicionei este log
-            const row = await BookRepository.create(livro);
+            const row = await BookRepository.create(livro, req.userId, (err, res) => {
+                if (err) return res.status(500).send('Server error');
+                res.status(201).send('Book added!');
+              });
             res.json(row);
         } catch (error) {
             console.error('Erro no método store:', error.message);
@@ -37,10 +44,10 @@ class BookController{
     async update(req, res) {
         try {
             const id = req.params.id;
-            const { title, author, descriptions, indication, bookCover, img } = req.body; // Desestruture os campos necessários do req.body
-            console.log('Dados recebidos no update:', { id, title, author, descriptions, indication, bookCover, img });
+            const { title, author, synopsis, link, imageLink, audience } = req.body; // Desestruture os campos necessários do req.body
+            console.log('Dados recebidos no update:', { id, title, author, synopsis, link, imageLink, audience });
 
-            const updatedBook = { title, author, descriptions, indication, bookCover, img };
+            const updatedBook = { title, author, synopsis, link, imageLink, audience };
             const rows = await BookRepository.update(updatedBook, id);
             res.json(rows);
         } catch (error) {
