@@ -1,14 +1,16 @@
 import UserRepository from '../repositories/UserRepository.js';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt'
 
 
 const userRepository = new UserRepository();
 
 class UserController {
 
-  register(req, res) {
+  async register(req, res) {
     const { username, password } = req.body;
-    const newUser = { username, password };
+    const hashPassword = await bcrypt.hash(password,10)
+    const newUser = { username, password:hashPassword };
     
     try {
       // return res.status(500).send('Erro no servidor');
@@ -36,7 +38,10 @@ class UserController {
         const user = results[0];
         console.log("Usuário logado!")
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
+        res.json({ 
+          user: results[0],
+          token: token
+         });
      
       });
     } catch (error) {

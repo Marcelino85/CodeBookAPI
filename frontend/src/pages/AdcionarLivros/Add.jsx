@@ -2,7 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
-const Add = () => {
+
+const Add = ({ token }) => {
 
   const [book, setBook] = useState({
 
@@ -19,16 +20,20 @@ const Add = () => {
   const handleChange = (e) => {
     setBook((prev)=>({...prev, [e.target.name] : e.target.value}))
   }
-
-  const handleClick = async e=>{
+  //tentar colocar um useEffect
+  const handleClick = async (e) => {
     e.preventDefault()
 
-    const token = localStorage.getItem('token');
+      // Verifica se o token está disponível
+      if (!token) {
+        console.error('Token não encontrado. Por favor, faça login novamente.');
+        return;
+      }
     
     try{
-      await axios.post("http://localhost:3006/api/livros/", book, {
+      await axios.post("http://localhost:3006/api/livros/add", book, {
         headers: {
-          Authorization: `Bearer ${token}`, // Inclui o token JWT no cabeçalho da requisição
+          Authorization: `Bearer ${token}` // Inclui o token JWT no cabeçalho da requisição
         },
       })
       navigate('/livros')

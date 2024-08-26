@@ -7,10 +7,10 @@ const bookRoutes = Router();
 // Aplicando o middleware a todas as rotas (CRUD) de livros
 bookRoutes.use(authMiddleware);
 
-bookRoutes.get('/', BookController.index);
-bookRoutes.get('/:id', BookController.show);
-bookRoutes.post('/', BookController.store);
-bookRoutes.put('/:id', BookController.update);
-bookRoutes.delete('/:id', BookController.delete);
+bookRoutes.get('/', BookController.index);  // Lista todos os livros
+bookRoutes.get('/:id', BookController.show);  // Mostra um livro específico
+bookRoutes.post('/add', BookController.store); // Adiciona um novo livro (ajuste aqui)
+bookRoutes.put('/update/:id', BookController.update);  // Atualiza um livro específico
+bookRoutes.delete('/delete/:id', BookController.delete); // Deleta um livro específico
 
 export default bookRoutes;

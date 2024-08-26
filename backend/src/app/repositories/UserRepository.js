@@ -2,7 +2,7 @@
 import { consulta } from '../database/Conexao.js';
 import conexao from '../database/Conexao.js';
 
-class UserRepository {
+export class UserRepository {
     create(user) {
     const { username, password } = user;
      try {
@@ -21,7 +21,7 @@ class UserRepository {
     try {
       const sql = 'SELECT * FROM users WHERE username = ?';
       const rows = conexao.query(sql, [username], callback);
-      return rows;
+      return rows;  
     } catch (error) {
       console.error('Erro no método findByUsername:', error.message);
       throw new Error('Erro ao logar usuário.');

@@ -34,6 +34,7 @@ const Update = () => {
       try {
         const response = await axios.get(`http://localhost:3006/api/livros/${bookId}`);
         setBook(response.data); // Atualiza o estado com os dados do livro
+        console.log(response.data)
       } catch (err) {
         console.error('Erro ao buscar o livro:', err);
       }
@@ -52,7 +53,7 @@ const Update = () => {
 
     const token = localStorage.getItem('token'); // Pega o token JWT armazenado no localStorage
     try{
-      await axios.put(`http://localhost:3006/api/livros/${bookId}`, book,{
+      await axios.put(`http://localhost:3006/api/livros/update/${bookId}`, book,{
         headers: {
           Authorization: `Bearer ${token}` // Inclui o token no cabeçalho da requisição
         }
