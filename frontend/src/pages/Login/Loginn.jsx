@@ -2,7 +2,7 @@ import Navbar from './../../components/Navbar/Navbar';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import "./login.css"
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -52,8 +52,9 @@ const Login = ({ setToken }) => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="container">
-      <Navbar />
 
       <h2>Login</h2>
 
@@ -87,6 +88,7 @@ const Login = ({ setToken }) => {
       {message && <p>{message}</p>}
 
     </div>
+    </>
   );
 };
 

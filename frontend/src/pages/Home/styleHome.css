@@ -1,0 +1,37 @@
+
+.home{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10%;
+    
+  }
+
+  .home-text{
+    max-width: 37rem;
+  }
+
+  .home-text .text-h4{
+    font-size: 1.5rem;
+    background-color: var(--dk);
+    color: var(--whaite);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .home-text .text-h1{
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    line-height: 4rem;
+    color: 7f3f17d;
+  }
+
+  .home-img img{
+    width:70%;
+    border-radius: 10px;
+    margin-left: 10%;
+    border: 1px solid var(--black);
+
+  }

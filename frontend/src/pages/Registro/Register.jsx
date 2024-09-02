@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './../../components/Navbar/Navbar';
+import "./register.css"
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -36,29 +37,31 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <h2>Registre-se</h2>
-      {message && <div id="mensagem" style={{ color: message.startsWith('Erro') ? 'red' : 'green' }}>{message}</div>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        /><br></br>
-        <button type="submit">Register</button>
-        <button type="button" onClick={() => navigate('/login')}>Já tem uma conta? Faça login</button>
-      </form>
-    </div>
+    <>
+        <Navbar />
+      <div className='container'>
+        <h2>Registre-se</h2>
+        {message && <div id="mensagem" style={{ color: message.startsWith('Erro') ? 'red' : 'green' }}>{message}</div>}
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+          /><br></br>
+          <button type="submit">Register</button>
+          <button type="button" onClick={() => navigate('/login')}>Já tem uma conta? Faça login</button>
+        </form>
+      </div>
+    </>
   );
 };
 
