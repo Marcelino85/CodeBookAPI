@@ -47,14 +47,16 @@ const Add = ({ token }) => {
   return (
     <div className='form'>
       <h1>Adicionar Novo Livro</h1>
-      <input type="text" placeholder='Titulo' onChange={handleChange} name='title' value={book.title}/>
-      <input type="text" placeholder='Autor' onChange={handleChange} name='author'value={book.author}/>
-      <input type="text" placeholder='Descrição' onChange={handleChange} name='synopsis'value={book.synopsis}/>
-      <input type="text" placeholder='Indicação' onChange={handleChange} name='audience' value={book.audience}/>
-      <input type="text" placeholder='Capa' onChange={handleChange} name='imageLink'value={book.imageLink}/>
-      <input type="text" placeholder='link' onChange={handleChange} name='link'value={book.link}/>
-      <button className='formButton' onClick={handleClick}>Add</button>
-      <button className='btn' onClick={() => navigate('/livros')}>Voltar</button>
+        <div className="content">
+          <input type="text" placeholder='Titulo' onChange={handleChange} name='title' value={book.title}/><p/>
+          <input type="text" placeholder='Autor' onChange={handleChange} name='author'value={book.author}/><p/>
+          <textarea rows="4" cols="50" placeholder='Descrição' onChange={handleChange} name='synopsis'value={book.synopsis}/><p/>
+          <input type="text" placeholder='Indicação' onChange={handleChange} name='audience' value={book.audience}/><p/>
+          <input type="text" placeholder='Capa' onChange={handleChange} name='imageLink'value={book.imageLink}/><p/>
+          <input type="text" placeholder='link' onChange={handleChange} name='link'value={book.link}/><p/>
+          <button className='formButton' onClick={handleClick}>Cadastrar</button>
+          <button className='btn' onClick={() => navigate('/livros')}>Voltar</button>
+        </div>
 
     </div>
   )
