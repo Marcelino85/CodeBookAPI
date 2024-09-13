@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./login.css"
+import {ThreeDots} from 'react-loader-spinner'
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -12,10 +13,10 @@ const Login = ({ setToken }) => {
     username: '',
     password: ''
   });
-
   const [message, setMessage] = useState('');
   const navigate = useNavigate(); // Hook para redirecionamento
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,8 +29,9 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-      try{
+      setLoading(true);
 
+      try{
          axios.post('http://localhost:3006/api/users/login', formData)
         .then(response =>{
           
@@ -37,6 +39,7 @@ const Login = ({ setToken }) => {
             setToken(response.data.token);
            
             setMessage('Login bem-sucedido!');
+            setLoading(true);
           } else {
             setMessage('Erro ao fazer login.');
           }
@@ -47,7 +50,8 @@ const Login = ({ setToken }) => {
         console.error('Erro ao registrar usuário:', err);
         setError('Usuário não cadastrado ou senha incorreta');
       };
-      await sleep(2000);
+      setLoading(false);
+      await sleep(1000);
       navigate('/livros'); // Redireciona para a página de livros
   };
 
@@ -78,15 +82,30 @@ const Login = ({ setToken }) => {
             name="password"
             required
           />
-
-          <button type="submit">Entrar</button>
+         
+          <button type="submit" disabled={loading}>{loading ? "Carregando..." : "Login"}</button>
           {error && <p className="error">{error}</p>}
           <button type="button" onClick={() => navigate('/register')}>Registrar-se</button>
-
+          
         </form>
+        
+        <div className='messageReloader'>
 
-      {message && <p>{message}</p>}
+          {message && <p>{message}</p>}
+        
+          {loading && (        
+            <ThreeDots 
+              height="30"
+              width="60"
+              radius="9"
+              color="#4fa94d"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{margin: '30px auto'}}
+              wrapperClassName=""
+              visible={true}
+            />)}
 
+        </div>
     </div>
     </>
   );
