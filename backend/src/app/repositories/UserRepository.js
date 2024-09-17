@@ -16,14 +16,14 @@ export class UserRepository {
     }
   }
 
-  findByUsername(username, callback){
+  findByEmail(email, callback){
     
     try {
-      const sql = 'SELECT * FROM users WHERE username = ?';
-      const rows = conexao.query(sql, [username], callback);
+      const sql = 'SELECT * FROM users WHERE email = ?';
+      const rows = conexao.query(sql, [email], callback);
       return rows;  
     } catch (error) {
-      console.error('Erro no método findByUsername:', error.message);
+      console.error('Erro no método findByEmail:', error.message);
       throw new Error('Erro ao logar usuário.');
     }
   }

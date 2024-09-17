@@ -7,12 +7,9 @@ import Books from './pages/Livros/Books';
 import Update from './pages/Livros/AtualizarLivros/Update'
 import Add from './pages/AdcionarLivros/Add';
 
-
-
  export const MyRoutes = ()=>{
 
-    const [token, setToken] = useState('');
-    
+    const [token, setToken] = useState('');    
 
     // Carregar o token do localStorage quando o App é montado
     useEffect(() => {
@@ -26,9 +23,7 @@ import Add from './pages/AdcionarLivros/Add';
      const handleSetToken = (newToken) => {
       localStorage.setItem('token', newToken);
       setToken(newToken);
-    };
-
-   
+    }; 
 
   return (
     <Router>

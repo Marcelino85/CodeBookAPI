@@ -11,7 +11,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const Login = ({ setToken }) => {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
   const [message, setMessage] = useState('');
@@ -28,7 +28,7 @@ const Login = ({ setToken }) => {
   };
 
   const validateForm = () => {
-    if (!formData.username || !/\S+@\S+\.\S+/.test(formData.username)) {
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
       setError("Por favor, insira um e-mail válido.");
       return false;
     }
@@ -73,8 +73,8 @@ const Login = ({ setToken }) => {
             type="email"
             value={formData.username}
             onChange={handleChange}
-            placeholder="UserName"
-            name="username"
+            placeholder="email"
+            name="email"
             required
           />
           <input
