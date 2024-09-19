@@ -48,6 +48,7 @@ const Login = ({ setToken }) => {
     setLoading(true);
     try {
       const response = await axios.post('http://localhost:3006/api/users/login', formData);
+      
       if (response.status === 200) {
         setToken(response.data.token);
         setMessage('Login bem-sucedido!');

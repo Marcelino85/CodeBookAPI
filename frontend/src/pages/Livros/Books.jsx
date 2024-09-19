@@ -42,6 +42,11 @@ const Books = ({ token }) => {
       console.log(err);
     }
   };
+  
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove o token do localStorage
+    navigate('/login'); // Redireciona para a página de login
+  };
 
   return (
     <>
@@ -86,7 +91,7 @@ const Books = ({ token }) => {
             </div>
           ))}
           <button className='btn'  onClick={() => navigate('/livros/add')}>Adicionar Livro</button>
-          <button className='btn' onClick={() => navigate('/login')}>Sair</button>
+          <button className='btn' onClick={handleLogout}>Sair</button>
         </div>
       </div>
     </>

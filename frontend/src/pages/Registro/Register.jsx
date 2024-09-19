@@ -1,18 +1,22 @@
-// register.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './../../components/Navbar/Navbar';
 import "./register.css";
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 const Register = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
+
   const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false); // Estado para verificar se a mensagem é de erro ou sucesso
+  const [isLoading, setIsLoading] = useState(false); // Estado para exibir carregamento
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -23,32 +27,48 @@ const Register = () => {
     });
   };
 
-  const validateForm = () => {
-    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
-      setMessage('Por favor, insira um e-mail válido.');
-      return false;
-    }
-    if (formData.password.length < 6) {
-      setMessage('A senha deve ter no mínimo 6 caracteres.');
-      return false;
-    }
-    setMessage('');
-    return true;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    // Validação para senhas correspondentes
+    if (formData.password !== formData.confirmPassword) {
+      setMessage('As senhas não coincidem.');
+      setIsError(true);
+      return;
+    }
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      setMessage('Por favor, insira um e-mail válido.');
+      setIsError(true);
+      return;
+    }
+    if (formData.password.length < 6) {
+      setMessage('A senha deve ter no mínimo 6 caracteres.');
+      setIsError(true);
+      return;
+    }
+    setMessage('');
+    setIsError(false);
 
     try {
+      setIsLoading(true); // Iniciar carregamento
       const response = await axios.post('http://localhost:3006/api/users/register', formData);
-      setMessage(response.data.message || 'Registrado com sucesso');
-      setTimeout(() => {
-        navigate('/livros');
-      }, 2000);
+
+      if (response.status === 201) {
+        const { token } = response.data;
+        localStorage.removeItem('token'); // Remover token anterior, se existir
+        localStorage.setItem('token', token); // Salvar o token
+
+        setMessage('Registrado com sucesso!');
+        setIsError(false);
+        await sleep(1000); // Pequena pausa antes de redirecionar
+        navigate('/login'); // Redirecionar para a página de login
+      }
+
     } catch (err) {
-      setMessage('Erro ao registrar usuário: ' + err.message);
+      setMessage('Erro ao registrar usuário: ' + err.response?.data?.message || 'Erro inesperado.');
+      setIsError(true);
+    } finally {
+      setIsLoading(false); // Parar carregamento
     }
   };
 
@@ -57,7 +77,14 @@ const Register = () => {
       <Navbar />
       <div className='container'>
         <h2>Registre-se</h2>
-        {message && <div id="mensagem" style={{ color: message.startsWith('Erro') ? 'red' : 'green' }}>{message}</div>}
+        {message && (
+          <div
+            id="mensagem"
+            style={{ color: isError ? 'red' : 'green' }}
+          >
+            {message}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -65,6 +92,7 @@ const Register = () => {
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
+            required
           />
           <input
             type="email"
@@ -72,6 +100,7 @@ const Register = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
+            required
           />
           <input
             type="password"
@@ -79,9 +108,22 @@ const Register = () => {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirme sua senha"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
           /><br />
-          <button type="submit">Register</button>
-          <button type="button" onClick={() => navigate('/login')}>Já tem uma conta? Faça login</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? 'Registrando...' : 'Registrar'}
+          </button>
+          <button type="button" onClick={() => navigate('/login')}>
+            Já tem uma conta? Faça login
+          </button>
         </form>
       </div>
     </>
@@ -89,3 +131,4 @@ const Register = () => {
 };
 
 export default Register;
+
