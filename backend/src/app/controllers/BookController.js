@@ -1,4 +1,9 @@
+import multer from 'multer';
 import BookRepository from "../repositories/BookRepository.js";
+
+// Configuração do multer para armazenamento em memória
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 class BookController{
     async index(req, res) {
@@ -28,18 +33,26 @@ class BookController{
 
     async store(req, res) {
         try {
-            const livro = req.body;
-            console.log('Dados recebidos no store:', livro); // Adicionei este log
-            const row = await BookRepository.create(livro, req.userId, (err, res) => {
-                if (err) return res.status(500).send('Server error');
-                res.status(201).send('Book added!');
-              });
-            res.json(row);
+          const livro = req.body;
+          const arquivo = req.file; // O arquivo PDF
+    
+          if (!arquivo) {
+            return res.status(400).json({ message: 'Arquivo PDF não enviado.' });
+          }
+    
+          // Agora o arquivo é acessível por `arquivo.buffer`
+          const livroComArquivo = {
+            ...livro,
+            arquivo: arquivo.buffer // Inclui o buffer do arquivo para enviar ao repositório
+          };
+    
+          const row = await BookRepository.create(livroComArquivo, req.userId);
+          res.status(201).json({ message: 'Livro adicionado com sucesso!', row });
         } catch (error) {
-            console.error('Erro no método store:', error.message);
-            res.status(500).json({ error: 'Erro ao criar livro' });
+          console.error('Erro no método store:', error.message);
+          res.status(500).json({ error: 'Erro ao criar livro' });
         }
-    }
+      }
 
     async update(req, res) {
         try {
@@ -69,3 +82,6 @@ class BookController{
 }
 
 export default new BookController();
+
+// Exportar o upload configurado para uso nas rotas
+export { upload };

@@ -3,17 +3,16 @@ import {consulta} from '../database/Conexao.js'
 class BookRepository{
 
     // CRUD
-    async create(book, userId, callback){
+    async create(book, userId) {
         try {
-            const { title, author, synopsis, link, imageLink, audience } = book;
-            const sql = 'INSERT INTO books (title, author, synopsis, link, imageLink, audience, userId) VALUES (?, ?, ?, ?, ?, ?, ?)';
-            return await consulta(sql, [title, author, synopsis, link, imageLink, audience, userId], callback)
-
+          const { title, author, synopsis, link, imageLink, audience, arquivo } = book;
+          const sql = 'INSERT INTO books (title, author, synopsis, link, imageLink, audience, arquivo, userId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+          return await consulta(sql, [title, author, synopsis, link, imageLink, audience, arquivo, userId]);
         } catch (error) {
-            console.error('Erro no método create:', error.message);
-            throw new Error('Erro ao criar livro');
+          console.error('Erro no método create:', error.message);
+          throw new Error('Erro ao criar livro');
         }
-    }
+      }
 
     async findAllByUserId(userId){
         try {
