@@ -106,4 +106,95 @@
 
 .btn{
   margin: 10px;
+  color: white;
+  background-color: #007bff;
+}
+
+
+/* Estilos para o modal */
+.modal {
+  position: fixed; /* Posiciona o modal em relação à tela inteira */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Garante que o modal esteja sobreposto aos outros elementos */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  width: 50%;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out; /* Adiciona uma animação suave ao abrir */
+  flex-direction: column; /* Alinha os itens verticalmente */
+  align-items: center;    /* Centraliza o conteúdo horizontalmente */
+}
+
+.modal img {
+  max-width: 50%;
+  height: auto;
+  margin-bottom: 15px;
+  display: block; /* Garante que a imagem seja tratada como um bloco */
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-size: 24px;
+  
+}
+
+.modal p {
+  font-size: 16px;
+  line-height: 1.5;
+  
+}
+
+.modal button {
+  padding: 10px 20px; /* Tamanho interno */
+  width: 150px; /* Largura fixa */
+  height: 40px; /* Altura fixa */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center; /* Garante que o texto fique centralizado */
+}
+
+.modal button:hover {
+  background-color: #0056b3;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+/* Animação para suavizar a exibição do modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

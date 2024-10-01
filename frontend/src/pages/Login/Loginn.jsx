@@ -53,7 +53,7 @@ const Login = ({ setToken }) => {
       if (response.status === 200) {
         setToken(response.data.token);
         setMessage('Login bem-sucedido!');
-        await sleep(5000);
+        await sleep(1000);
         navigate('/livros');
       } else {
         setMessage('Erro ao fazer login.');

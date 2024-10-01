@@ -1,0 +1,22 @@
+.light-mode {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .dark-mode {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .progress-container {
+    margin-top: 20px;
+  }
+  
+  iframe {
+    margin-top: 10px;
+  }
+  
+  button {
+    margin: 10px;
+  }
+  
