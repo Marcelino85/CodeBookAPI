@@ -66,7 +66,7 @@ const Books = ({ token }) => {
                   <li><strong>Descriptions:</strong> {selectedBook.synopsis}</li>
                   <li><strong>Público:</strong> {selectedBook.audience}</li>
                   <li>
-                    <button onClick={() => window.open(selectedBook.link, '_blank')}>
+                    <button onClick={() => window.open(selectedBook.link, '_blank')}>""
                       Saiba mais
                     </button>
                   </li>

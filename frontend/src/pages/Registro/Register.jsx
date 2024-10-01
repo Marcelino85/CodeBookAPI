@@ -97,7 +97,7 @@ const Register = () => {
                 type="text"
                 name="username"
                 className="form-control"
-                placeholder="Username"
+                placeholder="Nome"
                 value={formData.username}
                 onChange={handleChange}
                 required
@@ -119,7 +119,7 @@ const Register = () => {
                 type="password"
                 name="password"
                 className="form-control"
-                placeholder="Password"
+                placeholder="Senha"
                 value={formData.password}
                 onChange={handleChange}
                 required
