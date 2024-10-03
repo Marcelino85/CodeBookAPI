@@ -1,3 +1,4 @@
+/* Responsividade e layout ajustado com Bootstrap */
 .container {
   display: flex;
   justify-content: space-between;
@@ -8,170 +9,231 @@
   width: 48%;
 }
 
-.book-item {
+
+
+/* adptação */
+.container{
+  /* border: solid 1px rgb(255, 0, 191);  */
+  justify-content: center;
+  
+}
+.row{
+  /* border: solid 1px rgb(38, 0, 255); */
+  width: 100%;
+}
+.colBtnItem{
+  /* border: solid 1px rgb(9, 255, 0); */
+  width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.book-list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
+  margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #fff;
-}
-
-.book-item:hover {
-  background-color: #f9f9f9;
-  cursor: pointer;
-}
-
-.book-item img {
-  width: 100px;
-  height: auto;
-}
-
-.book-info {
-  margin-left: 20px;
-}
-
-.book-info ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.book-info li {
-  margin-bottom: 10px;
-}
-
-.book-info button {
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-}
-
-.book-info button:hover {
-  background-color: #0056b3;
+  width: 100%;
+  /* border: solid 1px red; */
 }
 
 .book-list-title {
   font-size: 18px;
   font-weight: bold;
+  margin-bottom: 10px;
   cursor: pointer;
+  transition: 1s;
 }
 
 .book-list-title:hover {
   color: white;
   background-color: #007bff;
-}
-
-.book-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+  border-radius: 10px;
+  
 }
 
 .book-list-item button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  margin: 5px 0;
 }
 
-.book-list-item button.edit {
-  background-color: #ffc107;
-  color: #fff;
-}
-
-.book-list-item button.edit:hover {
-  background-color: #e0a800;
-}
-
-.book-list-item button.delete {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-.book-list-item button.delete:hover {
-  background-color: #c82333;
-}
-
-.btn{
-  margin: 10px;
-  color: white;
-  background-color: #007bff;
-}
-
-
-/* Estilos para o modal */
-.modal {
-  position: fixed; /* Posiciona o modal em relação à tela inteira */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+.pagination {
   display: flex;
   justify-content: center;
+  padding: 10px 0;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff;
+  color: white;
+}
+
+.page-link {
+  color: #007bff;
+  padding: 8px 12px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #dee2e6;
+}
+
+.page-link:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+/* Estilos para o modal */
+/* Modal Responsivo */
+.modal {
+  display: flex;
   align-items: center;
-  z-index: 1000; /* Garante que o modal esteja sobreposto aos outros elementos */
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050; /* Garante que o modal esteja sempre em cima */
 }
 
+/* Modal Responsivo com Tamanho Proporcional */
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 400px;
-  width: 50%;
-  position: relative;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  animation: fadeIn 0.3s ease-in-out; /* Adiciona uma animação suave ao abrir */
-  flex-direction: column; /* Alinha os itens verticalmente */
-  align-items: center;    /* Centraliza o conteúdo horizontalmente */
+  color: #fff;
+  width: 80%; /* Para telas grandes, o modal ocupará 80% da largura */
+  max-width: 600px; /* Limite de 600px de largura */
+  height: auto;
+  max-height: 100vh; /* O modal nunca ultrapassará a altura da tela */
+  background-color: #0d0d0d;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  padding: 30px 20px;
+  align-items: center;
+  overflow-y: auto; /* Se o conteúdo exceder a altura, exibe barra de rolagem */
 }
 
+/* Ajuste de imagem para ser responsiva */
 .modal img {
-  max-width: 50%;
+  max-width: 40%; /* Imagem ocupará 80% da largura disponível */
   height: auto;
   margin-bottom: 15px;
-  display: block; /* Garante que a imagem seja tratada como um bloco */
 }
 
 .modal h2 {
   margin-top: 0;
   font-size: 24px;
-  
+  text-align: center;
 }
 
-.modal p {
-  font-size: 16px;
-  line-height: 1.5;
-  
+/* Conteúdo da descrição com barra de rolagem */
+.modal .description-container {
+  width: 80%;
+  max-height: 200px; /* Limita a altura da descrição para manter o layout */
+  overflow-y: auto; /* Habilitando rolagem para conteúdo longo */
+  margin-bottom: 15px;
+  background-color: #333;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Barras de rolagem estilizadas */
+.description-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.description-container::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 4px;
+}
+
+.description-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* Botões do modal */
+.modalButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .modal button {
-  padding: 10px 20px; /* Tamanho interno */
-  width: 150px; /* Largura fixa */
-  height: 40px; /* Altura fixa */
+  padding: 10px 20px;
+  width: 120px;
+  height: 40px;
   background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  text-align: center; /* Garante que o texto fique centralizado */
+  text-align: center;
 }
 
 .modal button:hover {
   background-color: #0056b3;
 }
+
+/* Fechar modal */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #ccc;
+}
+
+/* Responsividade para dispositivos menores */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%; /* O modal ocupará 90% da tela em dispositivos menores */
+    padding: 20px 10px;
+  }
+
+  .modal img {
+    max-width: 50%; /* A imagem será um pouco menor em telas pequenas */
+  }
+
+  .modal h2 {
+    font-size: 20px; /* Reduz o tamanho da fonte em telas menores */
+    
+  }
+
+  .description-container {
+    max-height: 150px; /* A descrição será um pouco menor em dispositivos móveis */
+  }
+
+  .modalButton {
+    flex-direction: column; /* Botões dispostos em coluna em telas pequenas */
+    row-gap: 10px;
+  }
+
+  .modal button {
+    width: 90%; /* Botões ocuparão 90% da largura disponível */
+  }
+
+  .btnEdt-Exc{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+  }
+}
+
 
 .close {
   position: absolute;
@@ -184,17 +246,20 @@
 }
 
 .close:hover {
-  color: #000;
+  color: #fff;
 }
 
-/* Animação para suavizar a exibição do modal */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* Estilizando a barra de rolagem */
+.description-container::-webkit-scrollbar {
+  width: 8px;
 }
+
+.description-container::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 4px;
+}
+
+.description-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
