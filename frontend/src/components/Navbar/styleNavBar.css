@@ -1,67 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@300;400;500;600;700&family=Righteous&family=Sarala:wght@700&display=swap');
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    list-style: none;
-    text-decoration: none;
-  }
-
-  :root{
-    --gold:#CBB26A;
-  --black:#000000;
-  --dark:#d8c690;
-  --gd:#be9e44;
-  --dk:#1a1a1a;
-  --pk:#e5d9b6;
-  --whaite:#fcfcfc;
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff; /* Cor azul para o nome do aplicativo */
 }
 
- 
-  nav{
-    display: flex;
-    align-items: center;
-    justify-content:space-between;
-    padding: 18px 40px;
-    box-shadow: 0 0.1rem 0.5rem var(--gd);
-    width: 100%;
-    background: var(--black);
-    transition: all 0.5s;
-    /* position: fixed; */
-    justify-content: space-around;
-    
-      
-  }
-  
-  .navigation .logo{
-    width: 150px;
-    min-height: auto;
-  
-  }
-  
-  
-  
-  nav ul{
-    display: flex;
-    align-items: center;
-    gap: 5rem;
-        
-  }
-  
-  nav ul li a{
-    color: var(--dark);
-    font-size: 17px;
-    font-weight: 500;
-    transition: all 0.5s;
-  }
-  
-  nav ul li a:hover{
-    color: var(--whaite);
-  }
-  
-  .navigation i{
-    cursor: pointer;
-    font-size: 1.5rem;
-  }
+.navbar-nav .nav-link {
+  color: #faf5f5;
+  margin-right: 15px;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #007bff; /* Cor de destaque ao passar o mouse */
+}
+
+.logoName{
+  color: #007bff; /* Cor de destaque ao passar o mouse */
+
+}
