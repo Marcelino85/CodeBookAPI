@@ -15,7 +15,10 @@ const BookModal = ({ book, onClose, navigate }) => {
     <div className="modal">
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
-        <img src={book.imageLink} alt={book.title} />
+        <div className='imgdiv'>
+         <img src={book.imageLink} alt={book.title} />
+        </div>
+        
         <h2>{book.title}</h2>
         <p><strong>Autor:</strong> {book.author}</p>
         <p><strong>Público:</strong> {book.audience}</p>
@@ -98,7 +101,7 @@ const Books = ({ token }) => {
                 </span>
                 <div className='btnEdt-Exc'>
                   <button className="btn btn-warning btn-sm me-2" onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
-                  <button className="btn btn-danger btn-sm me-2" onClick={() => handleDelete(book.id)}>Excluir</button>
+                  <button className="btn btn-danger btn-sm me-2" onClick={() => {handleDelete(book.id)}}>Excluir</button>
                 </div>
               </div>
             ))}
