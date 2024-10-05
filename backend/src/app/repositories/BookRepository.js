@@ -18,6 +18,7 @@ class BookRepository{
         try {
             const sql = `SELECT * FROM books WHERE userId = ?;`;
             return await consulta(sql, [userId]);
+            
         } catch (error) {
             console.error('Erro no método findAllByUserId:', error.message);
             throw new Error('Erro ao buscar do usuário');

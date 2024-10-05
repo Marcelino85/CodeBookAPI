@@ -65,7 +65,7 @@ const Register = () => {
         setMessage('Registrado com sucesso!');
         setIsError(false);
         await sleep(1000); // Pequena pausa antes de redirecionar
-        navigate('/login'); // Redirecionar para a página de login
+        navigate(`/livros`); // Redirecionar para a página de login
       }
 
     } catch (err) {

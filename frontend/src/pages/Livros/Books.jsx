@@ -44,6 +44,7 @@ const Books = ({ token }) => {
   const [booksPerPage] = useState(3); // Quantidade de livros por página
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (!token) {
       navigate('/login');

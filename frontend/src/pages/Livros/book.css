@@ -136,7 +136,6 @@
   justify-content: center;
   align-items: center;
   
-
 }
 
 .modal h2 {
@@ -222,7 +221,6 @@
 
   .modal h2 {
     font-size: 20px; /* Reduz o tamanho da fonte em telas menores */
-    
   }
 
   .description-container {
@@ -237,15 +235,12 @@
   .modal button {
     width: 90%; /* Botões ocuparão 90% da largura disponível */
   }
-
   .btnEdt-Exc{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-
   }
 }
-
 
 .close {
   position: absolute;
