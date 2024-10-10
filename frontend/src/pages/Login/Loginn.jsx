@@ -1,6 +1,6 @@
 // login.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./login.css";
@@ -19,6 +19,7 @@ const Login = ({ setToken }) => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [sessionMessage, setSessionMessage] = useState(''); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,12 +66,26 @@ const Login = ({ setToken }) => {
     }
   };
 
+  useEffect(() => {
+    // Verificar se há uma mensagem de sessão expirada no localStorage
+    const message = localStorage.getItem('sessionExpiredMessage');
+    if (message) {
+      setSessionMessage(message);
+      // Limpar a mensagem após exibi-la
+      localStorage.removeItem('sessionExpiredMessage');
+    }
+  }, []);
+
   return (
     <>
       <Navbar />
       <div className="container d-flex flex-column justify-content-center align-items-center min-vh-95">
         <div className="card shadow p-4 w-100" style={{ maxWidth: '400px', backgroundColor: '#f0f8ff' }}>
           <h2 className="text-center mb-4" style={{ color: '#006a71' }}>Login</h2>
+          
+          {/* Menssagem de token expirado */}
+          {sessionMessage && <p>{sessionMessage}</p>}
+          
           <form onSubmit={handleSubmit}>
             <div className="form-group mb-3">
               <input
