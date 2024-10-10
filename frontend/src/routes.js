@@ -32,7 +32,7 @@ import LeituraLivro from './pages/LeituraLivro/ReadBook';
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setToken={handleSetToken} />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register/>} />
         <Route path="/livros" element={<Books token={token} />} />
         <Route path="/livros/update/:bookId" element={<Update token={token} />} />
         <Route path="/livros/add" element={<Add token={token}/>} />

@@ -65,7 +65,7 @@ const Register = () => {
         setMessage('Registrado com sucesso!');
         setIsError(false);
         await sleep(1000); // Pequena pausa antes de redirecionar
-        navigate(`/livros`); // Redirecionar para a página de login
+        navigate(`/login`); // Redirecionar para a página de livros
       }
 
     } catch (err) {
@@ -143,7 +143,7 @@ const Register = () => {
               Já tem uma conta? Faça login
             </button>
           </form>
-          <div className="text-center">
+          <div className="threeDots">
             {isLoading && (
               <ThreeDots
                 height="30"
