@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; // Para capturar o ID da URL
+import { useParams, useNavigate } from 'react-router-dom'; // Para capturar o ID da URL
+import Navbar from './../../components/Navbar/Navbar';
 import './readBook.css';
 
 const ReadBook = ({ token }) => {
@@ -8,11 +9,12 @@ const ReadBook = ({ token }) => {
   const [bookData, setBookData] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
   const [progress, setProgress] = useState(0);
+  const navigate = useNavigate(); // Hook para navegação
+ 
 
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        // Verifica se o token existe antes de realizar a requisição
         if (!token) {
           console.error('Token não encontrado! Por favor, faça login.');
           return;
@@ -20,14 +22,14 @@ const ReadBook = ({ token }) => {
 
         const res = await axios.get(`http://localhost:3006/api/livros/read/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}`  // Inclui o token no cabeçalho
+            Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho
           },
-          responseType: 'blob',  // O arquivo será retornado como blob (PDF)
+          responseType: 'blob', // O arquivo será retornado como blob (PDF)
         });
 
         // Cria a URL temporária para exibir o PDF
         const fileURL = URL.createObjectURL(res.data);
-        setBookData(fileURL);  // Armazena a URL do PDF
+        setBookData(fileURL); // Armazena a URL do PDF
       } catch (err) {
         console.error('Erro ao buscar o livro PDF:', err);
       }
@@ -44,21 +46,31 @@ const ReadBook = ({ token }) => {
     // Lógica para salvar o progresso no backend pode ser adicionada aqui
   };
 
+  const handleBackClick = () => {
+    navigate('/livros'); // Redireciona para a página de livros
+  };
+
   return (
+    <>
+    <Navbar />
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
       <button onClick={toggleDarkMode}>
         {darkMode ? 'Modo Claro' : 'Modo Escuro'}
       </button>
 
+      <button onClick={handleBackClick} style={{ marginLeft: '10px' }}>
+        Voltar para Livros
+      </button>
+
       {bookData && (
         <iframe
-          src={bookData}
-          title="PDF Viewer"
-          width="100%"
+        src={bookData}
+        title="PDF Viewer"
+        width="100%"
           height="600px"
           style={{ border: 'none' }}
-        ></iframe>
-      )}
+          ></iframe>
+        )}
 
       <div className="progress-container">
         <label>Progresso de Leitura:</label>
@@ -72,6 +84,7 @@ const ReadBook = ({ token }) => {
         <span>{progress}%</span>
       </div>
     </div>
+          </>
   );
 };
 
