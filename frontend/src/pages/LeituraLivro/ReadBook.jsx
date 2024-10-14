@@ -54,13 +54,34 @@ const ReadBook = ({ token }) => {
     <>
     <Navbar />
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
-      <button onClick={toggleDarkMode}>
-        {darkMode ? 'Modo Claro' : 'Modo Escuro'}
-      </button>
+      <div className="progress-container">
 
-      <button onClick={handleBackClick} style={{ marginLeft: '10px' }}>
-        Voltar para Livros
-      </button>
+        <div className='containerBtn'>
+
+        <button className='btnRead' onClick={toggleDarkMode}>
+          {darkMode ? 'Modo Claro' : 'Modo Escuro'}
+        </button>
+
+        <button className='btnRead' onClick={handleBackClick} style={{ marginLeft: '10px' }}>
+          Voltar para Livros
+        </button>
+
+        </div>
+
+        <div className="containerProgress">
+
+          <label className='labelProg'>Progresso de Leitura:</label>
+          <input
+            className='inputProg'
+            type="range"
+            min="0"
+            max="100"
+            value={progress}
+            onChange={handleProgressChange}
+            />
+          <span>{progress}%</span>
+        </div>
+      </div>
 
       {bookData && (
         <iframe
@@ -72,17 +93,6 @@ const ReadBook = ({ token }) => {
           ></iframe>
         )}
 
-      <div className="progress-container">
-        <label>Progresso de Leitura:</label>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={progress}
-          onChange={handleProgressChange}
-        />
-        <span>{progress}%</span>
-      </div>
     </div>
           </>
   );
