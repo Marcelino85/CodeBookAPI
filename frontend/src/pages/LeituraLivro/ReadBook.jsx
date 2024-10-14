@@ -85,12 +85,12 @@ const ReadBook = ({ token }) => {
 
       {bookData && (
         <iframe
-        src={bookData}
-        title="PDF Viewer"
-        width="100%"
+          src={bookData}
+          title="PDF Viewer"
+          width="100%"
           height="600px"
           style={{ border: 'none' }}
-          ></iframe>
+        ></iframe>
         )}
 
     </div>
