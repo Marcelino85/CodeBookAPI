@@ -8,7 +8,7 @@ const ReadBook = ({ token }) => {
   const { id } = useParams(); // Captura o ID do livro na URL
   const [bookData, setBookData] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
   const navigate = useNavigate(); // Hook para navegação
  
 
@@ -40,11 +40,11 @@ const ReadBook = ({ token }) => {
 
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
-  const handleProgressChange = (event) => {
-    const newProgress = event.target.value;
-    setProgress(newProgress);
-    // Lógica para salvar o progresso no backend pode ser adicionada aqui
-  };
+  // const handleProgressChange = (event) => {
+  //   const newProgress = event.target.value;
+  //   setProgress(newProgress);
+  //   // Lógica para salvar o progresso no backend pode ser adicionada aqui
+  // };
 
   const handleBackClick = () => {
     navigate('/livros'); // Redireciona para a página de livros
@@ -63,12 +63,12 @@ const ReadBook = ({ token }) => {
         </button>
 
         <button className='btnRead' onClick={handleBackClick} style={{ marginLeft: '10px' }}>
-          Voltar para Livros
+          Voltar para livros
         </button>
 
         </div>
 
-        <div className="containerProgress">
+        {/* <div className="containerProgress">
 
           <label className='labelProg'>Progresso de Leitura:</label>
           <input
@@ -80,7 +80,7 @@ const ReadBook = ({ token }) => {
             onChange={handleProgressChange}
             />
           <span>{progress}%</span>
-        </div>
+        </div> */}
       </div>
 
       {bookData && (
