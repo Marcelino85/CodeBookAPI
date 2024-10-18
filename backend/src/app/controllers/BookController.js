@@ -69,6 +69,36 @@ class BookController{
         }
     }
 
+    // Nova função no BookController
+    async read(req, res) {
+        try {
+          const bookId = req.params.id;
+          console.log("Book ID:", bookId); // Verifique se o ID está correto
+          
+          const result = await BookRepository.findById(bookId);
+          console.log("Resultado da busca no banco:", result);
+      
+          if (!result || !result[0] || !result[0].arquivo) {
+            return res.status(404).json({ message: 'Livro ou arquivo não encontrado.' });
+          }
+      
+          const pdfBuffer = Buffer.from(result[0].arquivo.data); // Extraindo o buffer do PDF
+      
+          // Definir os cabeçalhos corretos para envio do PDF
+          res.setHeader('Content-Type', 'application/pdf');
+          res.setHeader('Content-Disposition', 'inline; filename="livro.pdf"');
+      
+          // Enviar o PDF como resposta
+          res.send(pdfBuffer);
+        } catch (error) {
+          console.error('Erro ao buscar o PDF:', error.message);
+          res.status(500).json({ error: 'Erro ao buscar o PDF.' });
+        }
+      }
+      
+      
+  
+
     async delete(req, res) {
         try {
             const id = req.params.id;
