@@ -9,14 +9,50 @@
   }
   
   .progress-container {
-    margin-top: 20px;
+   
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:flex-end;
   }
   
   iframe {
-    margin-top: 10px;
+    margin-top: 5px;
+    
   }
   
-  button {
-    margin: 10px;
+  .btnRead {
+    color: white;
+    background-color: #007bff;
+    border-radius: 10px;
+    padding: 8px;
+    transition: 0.5s;
+    margin: 5px;
+  }
+
+  .btnRead:hover {
+    background-color: #0056b3;
+    color: white;
   }
   
+  .containerProgress{
+    width: 50vw;
+   
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    justify-content: center;
+
+  }
+
+  .labelProg{
+    font-style: italic;
+
+  }
+
+  .inputProg{
+    margin: 5px;
+    border: solid 1px red;
+    
+  }
