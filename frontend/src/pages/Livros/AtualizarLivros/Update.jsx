@@ -13,7 +13,8 @@ const Update = () => {
     synopsis: '', 
     link: '', 
     imageLink: '', 
-    audience: ''
+    audience: '',
+    visibilidade: 'privado' // Inicializa como privado
   });
 
   const navigate = useNavigate();
@@ -127,6 +128,18 @@ const Update = () => {
               value={book.synopsis}
               required
             />
+          </div>
+          <div className="form-group mb-3">
+            <label htmlFor="visibilidade">Visibilidade:</label>
+            <select
+              className="form-control"
+              name="visibilidade"
+              onChange={handleChange}
+              value={book.visibilidade}
+            >
+              <option value="privado">Privado</option>
+              <option value="publico">Público</option>
+            </select>
           </div>
           <button
             className="btn btn-success w-100 mb-3"
