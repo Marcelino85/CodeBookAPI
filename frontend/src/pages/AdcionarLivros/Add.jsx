@@ -149,12 +149,12 @@ const Add = ({ token }) => {
             />
           </div>
           <div className="form-group mb-3">
-            <label htmlFor="visibility">Visibilidade:</label>
+            <label htmlFor="visibilidade">Visibilidade:</label>
             <select
               className="form-control"
-              name="visibility"
+              name="visibilidade"
               onChange={handleChange}
-              value={book.visibility}
+              value={book.visibilidade}
             >
               <option value="privado">Privado</option>
               <option value="publico">Público</option>

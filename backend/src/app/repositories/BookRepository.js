@@ -14,15 +14,29 @@ class BookRepository{
         }
       }
 
-    async findAllByUserId(userId){
+    async findAllByUserId(userId,  publico = false){
         try {
-            const sql = `SELECT * FROM books WHERE userId = ?;`;
-            return await consulta(sql, [userId]);
+            const sql = publico ? 
+            `SELECT * FROM books WHERE visibilidade = 'publico'` : 
+            `SELECT * FROM books WHERE userId = ?;`;
+            return await consulta(sql, publico ? [] : [userId]);
         } catch (error) {
             console.error('Erro no método findAllByUserId:', error.message);
             throw new Error('Erro ao buscar do usuário');
         }
     }
+
+    //Método para buscar todos os livros públicos:
+    async findAllPublicBooks() {
+      try {
+          const sql = `SELECT * FROM books WHERE visibilidade = 'publico';`;
+          return await consulta(sql);
+      } catch (error) {
+          console.error('Erro no método findAllPublicBooks:', error.message);
+          throw new Error('Erro ao buscar livros públicos');
+      }
+    }
+  
 
     async findById (bookId){
         try {
@@ -35,11 +49,11 @@ class BookRepository{
       }
       
 
-    async update(book, id, callback){
+    async update(book, id){
         try {
-            const { title, author, synopsis, link, imageLink, audience } = book;
-            const sql = 'UPDATE books SET title = ?, author = ?, synopsis = ?, link = ?, imageLink = ?, audience = ? WHERE id = ?';
-            return await consulta(sql, [title, author, synopsis, link, imageLink, audience, id], callback);
+            const { title, author, synopsis, link, imageLink, audience, visibilidade } = book;
+            const sql = 'UPDATE books SET title = ?, author = ?, synopsis = ?, link = ?, imageLink = ?, audience = ?, visibilidade = ? WHERE id = ?';
+            return await consulta(sql, [title, author, synopsis, link, imageLink, audience, visibilidade, id]);
         } catch (error) {
             console.error('Erro no método update:', error.message);
             throw new Error('Erro ao atualizar livro');
