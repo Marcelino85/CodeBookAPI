@@ -53,9 +53,9 @@ class BookController{
           const livroComArquivo = {
             ...livro,
             arquivo: arquivo.buffer, // Inclui o buffer do arquivo para enviar ao repositório
-            visibilidade: livro.visibilidade || 'privado' // Define o padrão caso não seja enviado do frontend
+            visibilidade: livro.visibilidade  // Define o padrão caso não seja enviado do frontend
           };
-    
+          console.log('Dados do livro:', livroComArquivo);
           const row = await BookRepository.create(livroComArquivo, req.userId);
           res.status(201).json({ message: 'Livro adicionado com sucesso!', row });
         } catch (error) {

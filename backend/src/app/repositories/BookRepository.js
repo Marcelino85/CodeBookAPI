@@ -5,9 +5,9 @@ class BookRepository{
     // CRUD
     async create(book, userId) {
         try {
-          const { title, author, synopsis, link, imageLink, audience, arquivo } = book;
-          const sql = 'INSERT INTO books (title, author, synopsis, link, imageLink, audience, arquivo, userId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-          return await consulta(sql, [title, author, synopsis, link, imageLink, audience, arquivo, userId]);
+          const { title, author, synopsis, link, imageLink, audience, arquivo, visibilidade  } = book;
+          const sql = 'INSERT INTO books (title, author, synopsis, link, imageLink, audience, arquivo, userId, visibilidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+          return await consulta(sql, [title, author, synopsis, link, imageLink, audience, arquivo, userId, visibilidade ]);
         } catch (error) {
           console.error('Erro no método create:', error.message);
           throw new Error('Erro ao criar livro');
