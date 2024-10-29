@@ -15,7 +15,8 @@ const Add = ({ token }) => {
     link: '', 
     imageLink: '', 
     audience: '',
-    arquivo: null  // Armazenar o arquivo PDF aqui
+    arquivo: null,  // Armazenar o arquivo PDF aqui
+    visibilidade: 'privado' // Novo estado para visibilidade
   });
   
   const [isLoading, setIsLoading] = useState(false); // Estado para carregar spinner
@@ -49,6 +50,7 @@ const Add = ({ token }) => {
       formData.append('imageLink', book.imageLink);
       formData.append('audience', book.audience);
       formData.append('arquivo', book.arquivo);  // Adiciona o arquivo PDF no formData
+      formData.append('visibilidade', book.visibilidade); // Adiciona a visibilidade no formData
 
       await axios.post("http://localhost:3006/api/livros/add", formData, {
         headers: {
@@ -145,6 +147,18 @@ const Add = ({ token }) => {
               name="arquivo"
               required
             />
+          </div>
+          <div className="form-group mb-3">
+            <label htmlFor="visibilidade">Visibilidade:</label>
+            <select
+              className="form-control"
+              name="visibilidade"
+              onChange={handleChange}
+              value={book.visibilidade}
+            >
+              <option value="privado">Privado</option>
+              <option value="publico">Público</option>
+            </select>
           </div>
           <button
             className="btn btn-success w-100 mb-3"

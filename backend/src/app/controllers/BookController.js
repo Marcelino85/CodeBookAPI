@@ -6,16 +6,24 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 class BookController{
+
+  //Modifiquei o método index para que ele retorne todos os livros públicos, além dos livros privados do usuário autenticado.
     async index(req, res) {
-        try {
-           
-            const row = await BookRepository.findAllByUserId(req.userId);
-            res.json(row);
-        } catch (error) {
-            console.error('Erro no método index:', error.message);
-            res.status(500).json({ error: 'Erro ao buscar livros' });
-        }
+      try {
+          // Buscar livros do usuário logado e todos os livros públicos
+          const userBooks = await BookRepository.findAllByUserId(req.userId);
+          const publicBooks = await BookRepository.findAllPublicBooks();
+
+          // Combinar as listas, removendo duplicatas se necessário
+          const allBooks = [...userBooks, ...publicBooks.filter(pb => !userBooks.find(ub => ub.id === pb.id))];
+
+          res.json(allBooks);
+      } catch (error) {
+          console.error('Erro no método index:', error.message);
+          res.status(500).json({ error: 'Erro ao buscar livros' });
+      }
     }
+
 
     async show(req, res) {
         try {
@@ -38,14 +46,16 @@ class BookController{
     
           if (!arquivo) {
             return res.status(400).json({ message: 'Arquivo PDF não enviado.' });
+
           }
     
           // Agora o arquivo é acessível por `arquivo.buffer`
           const livroComArquivo = {
             ...livro,
-            arquivo: arquivo.buffer // Inclui o buffer do arquivo para enviar ao repositório
+            arquivo: arquivo.buffer, // Inclui o buffer do arquivo para enviar ao repositório
+            visibilidade: livro.visibilidade  // Define o padrão caso não seja enviado do frontend
           };
-    
+          console.log('Dados do livro:', livroComArquivo);
           const row = await BookRepository.create(livroComArquivo, req.userId);
           res.status(201).json({ message: 'Livro adicionado com sucesso!', row });
         } catch (error) {
@@ -57,10 +67,10 @@ class BookController{
     async update(req, res) {
         try {
             const id = req.params.id;
-            const { title, author, synopsis, link, imageLink, audience } = req.body; // Desestruture os campos necessários do req.body
-            console.log('Dados recebidos no update:', { id, title, author, synopsis, link, imageLink, audience });
-
-            const updatedBook = { title, author, synopsis, link, imageLink, audience };
+            const { title, author, synopsis, link, imageLink, audience, visibilidade } = req.body; // Desestruture os campos necessários do req.body
+            console.log('Dados recebidos no update:', { id, title, author, synopsis, link, imageLink, audience, visibilidade });
+            const updatedBook = { title, author, synopsis, link, imageLink, audience, visibilidade };
+            
             const rows = await BookRepository.update(updatedBook, id);
             res.json(rows);
         } catch (error) {

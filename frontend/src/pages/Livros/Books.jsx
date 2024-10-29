@@ -1,5 +1,3 @@
-// Books.js
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +17,12 @@ const BookModal = ({ book, onClose, navigate }) => {
          <img src={book.imageLink} alt={book.title} />
         </div>
         
-        <h2>{book.title}</h2>
+        <h2>
+          {book.title}
+          <span className={`badge ${book.visibilidade === 'publico' ? 'badge-publico' : 'badge-privado'}`}>
+            {book.visibilidade === 'publico' ? 'Público' : 'Privado'}
+          </span>
+        </h2>
         <p><strong>Autor:</strong> {book.author}</p>
         <p><strong>Público:</strong> {book.audience}</p>
         <div className="description-container">
@@ -27,10 +30,9 @@ const BookModal = ({ book, onClose, navigate }) => {
         </div>
 
         <div className='modalButton'>
-        <button onClick={() => window.open(book.link, '_blank')}>Saiba mais</button>
-        <button onClick={() => navigate(`/livros/read/${book.id}`)}>Ler Livro</button>
-        <button onClick={() => onClose()}>Fechar</button>
-
+          <button onClick={() => window.open(book.link, '_blank')}>Saiba mais</button>
+          <button onClick={() => navigate(`/livros/read/${book.id}`)}>Ler Livro</button>
+          <button onClick={() => onClose()}>Fechar</button>
         </div>
       </div>
     </div>
@@ -72,13 +74,17 @@ const Books = ({ token }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3006/api/livros/delete/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setLivros(livros.filter(book => book.id !== id));
-    } catch (err) {
-      console.log(err);
+    const confirmDelete = window.confirm('Você tem certeza que deseja excluir este livro?');
+
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:3006/api/livros/delete/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setLivros(livros.filter(book => book.id !== id));
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -95,16 +101,21 @@ const Books = ({ token }) => {
           <div className="colBtnItem">
             <h2><strong>Meus Livros</strong></h2>
             {currentBooks.map(book => (
-              <div key={book.id} className="book-list-item">
-                <span className="book-list-title" onClick={() => setSelectedBook(book)}>
-                  {book.title}
-                </span>
-                <div className='btnEdt-Exc'>
-                  <button className="btn btn-warning btn-sm me-2" onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
-                  <button className="btn btn-danger btn-sm me-2" onClick={() => {handleDelete(book.id)}}>Excluir</button>
+                <div key={book.id} className="book-list-item">
+                  <div className="book-list-title" onClick={() => setSelectedBook(book)}>
+                    {book.title}
+                    <span className={`badge ${book.visibilidade === 'publico' ? 'badge-publico' : 'badge-privado'}`}>
+                      {book.visibilidade === 'publico' ? 'Público' : 'Privado'}
+                    </span>
+                  </div>
+                  <div className='btnEdt-Exc'>
+                    <button className="btn btn-warning btn-sm" onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => {handleDelete(book.id)}}>Excluir</button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            }
+
             <button className="btn btn-primary mt-3" onClick={() => navigate('/livros/add')}>Adicionar Livro</button>
             <button className="btn btn-secondary mt-3" onClick={handleLogout}>Sair</button>
 

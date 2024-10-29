@@ -9,7 +9,11 @@
   width: 48%;
 }
 
-
+.btnEdt-Exc {
+  display: flex;
+  gap: 5px; /* Espaço entre os botões */
+  flex-shrink: 0; /* Garante que os botões não vão encolher */
+}
 
 /* adptação */
 .container{
@@ -41,7 +45,8 @@
   border-radius: 4px;
   background-color: #fff;
   width: 100%;
-  /* border: solid 1px red; */
+ 
+
 }
 
 .book-list-title {
@@ -49,7 +54,9 @@
   font-weight: bold;
   margin-bottom: 10px;
   cursor: pointer;
-  transition: 1s;
+  transition: 0.5s;
+  padding: 10px;
+  
 }
 
 .book-list-title:hover {
@@ -208,6 +215,46 @@
 .close:hover {
   color: #ccc;
 }
+
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  margin-left: 10px;
+  color: white;
+  flex-shrink: 0; /* Garante que o badge não vai encolher */
+}
+
+.badge-publico {
+  background-color: green;
+}
+
+.badge-privado {
+  background-color: red;
+}
+
+.book-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-list-title {
+  cursor: pointer;
+  flex: 2; /* Faz com que o título ocupe mais espaço */
+  overflow: hidden; /* Esconde texto que ultrapassar o limite */
+  /* white-space: nowrap; Evita quebra de linha */
+  text-overflow: ellipsis; /* Adiciona "..." no final se o texto for muito longo */
+  margin-right: 10px;
+}
+
 
 /* Responsividade para dispositivos menores */
 @media (max-width: 768px) {
