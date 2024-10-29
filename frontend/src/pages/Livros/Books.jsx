@@ -31,7 +31,7 @@ const BookModal = ({ book, onClose, navigate }) => {
 
         <div className='modalButton'>
           <button onClick={() => window.open(book.link, '_blank')}>Saiba mais</button>
-          <button onClick={() => navigate(`/livros/read/${book.id}`)}>Ler Livro</button>
+          <button onClick={() => window.open(`/livros/read/${book.id}`, '_blank')}>Ler Livro</button>
           <button onClick={() => onClose()}>Fechar</button>
         </div>
       </div>
