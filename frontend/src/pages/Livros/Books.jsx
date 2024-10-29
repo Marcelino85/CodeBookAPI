@@ -74,13 +74,17 @@ const Books = ({ token }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3006/api/livros/delete/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setLivros(livros.filter(book => book.id !== id));
-    } catch (err) {
-      console.log(err);
+    const confirmDelete = window.confirm('Você tem certeza que deseja excluir este livro?');
+
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:3006/api/livros/delete/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setLivros(livros.filter(book => book.id !== id));
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
