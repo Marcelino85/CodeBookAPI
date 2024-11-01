@@ -49,16 +49,27 @@ class BookRepository{
       }
       
 
-    async update(book, id){
+      async update(book, id) {
         try {
-            const { title, author, synopsis, link, imageLink, audience, visibilidade } = book;
-            const sql = 'UPDATE books SET title = ?, author = ?, synopsis = ?, link = ?, imageLink = ?, audience = ?, visibilidade = ? WHERE id = ?';
-            return await consulta(sql, [title, author, synopsis, link, imageLink, audience, visibilidade, id]);
+          const { title, author, synopsis, link, imageLink, audience, visibilidade, arquivo } = book;
+          let sql = 'UPDATE books SET title = ?, author = ?, synopsis = ?, link = ?, imageLink = ?, audience = ?, visibilidade = ?';
+          const values = [title, author, synopsis, link, imageLink, audience, visibilidade];
+      
+          if (arquivo) {
+            sql += ', arquivo = ?';
+            values.push(arquivo);
+          }
+      
+          sql += ' WHERE id = ?';
+          values.push(id);
+      
+          return await consulta(sql, values);
         } catch (error) {
-            console.error('Erro no método update:', error.message);
-            throw new Error('Erro ao atualizar livro');
+          console.error('Erro no método update:', error.message);
+          throw new Error('Erro ao atualizar livro');
         }
-    }
+      }
+      
 
     async delete(id, callback){
         try {

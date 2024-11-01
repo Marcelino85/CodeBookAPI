@@ -63,21 +63,24 @@ class BookController{
           res.status(500).json({ error: 'Erro ao criar livro' });
         }
       }
-
-    async update(req, res) {
+      
+      async update(req, res) {
         try {
-            const id = req.params.id;
-            const { title, author, synopsis, link, imageLink, audience, visibilidade } = req.body; // Desestruture os campos necessários do req.body
-            console.log('Dados recebidos no update:', { id, title, author, synopsis, link, imageLink, audience, visibilidade });
-            const updatedBook = { title, author, synopsis, link, imageLink, audience, visibilidade };
-            
-            const rows = await BookRepository.update(updatedBook, id);
-            res.json(rows);
+          const id = req.params.id;
+          const { title, author, synopsis, link, imageLink, audience, visibilidade } = req.body;
+          const arquivo = req.file ? req.file.buffer : null; // Verifica se um novo arquivo foi enviado
+      
+          const updatedBook = { title, author, synopsis, link, imageLink, audience, visibilidade, arquivo };
+          const rows = await BookRepository.update(updatedBook, id);
+          res.json({ message: 'Livro atualizado com sucesso!', rows });
         } catch (error) {
-            console.error('Erro no método update:', error.message);
-            res.status(500).json({ error: 'Erro ao atualizar livro' });
+          console.error('Erro no método update:', error.message);
+          res.status(500).json({ error: 'Erro ao atualizar livro' });
         }
-    }
+      }
+      
+      
+      
 
     // Nova função no BookController
     async read(req, res) {

@@ -1,10 +1,7 @@
-// Update.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 const Update = () => {
   const [book, setBook] = useState({
@@ -14,7 +11,8 @@ const Update = () => {
     link: '', 
     imageLink: '', 
     audience: '',
-    visibilidade: 'privado' // Inicializa como privado
+    visibilidade: 'privado', // Inicializa como privado
+    arquivo: null // Inicializa o arquivo como nulo para edição condicional
   });
 
   const navigate = useNavigate();
@@ -26,6 +24,7 @@ const Update = () => {
       return;
     }
 
+    // Carrega os dados do livro específico
     const fetchBook = async () => {
       try {
         const response = await axios.get(`http://localhost:3006/api/livros/${bookId}`);
@@ -38,7 +37,11 @@ const Update = () => {
   }, [bookId]);
 
   const handleChange = (e) => {
-    setBook((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (e.target.name === 'arquivo') {
+      setBook((prev) => ({ ...prev, arquivo: e.target.files[0] }));
+    } else {
+      setBook((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    }
   };
 
   const handleClick = async (e) => {
@@ -47,9 +50,23 @@ const Update = () => {
 
     const token = localStorage.getItem('token'); // Pega o token JWT armazenado no localStorage
     try {
-      await axios.put(`http://localhost:3006/api/livros/update/${bookId}`, book, {
+      const formData = new FormData();
+      formData.append('title', book.title);
+      formData.append('author', book.author);
+      formData.append('synopsis', book.synopsis);
+      formData.append('link', book.link);
+      formData.append('imageLink', book.imageLink);
+      formData.append('audience', book.audience);
+      formData.append('visibilidade', book.visibilidade);
+
+      if (book.arquivo) {
+        formData.append('arquivo', book.arquivo); // Adiciona o arquivo apenas se o usuário o selecionou
+      }
+
+      await axios.put(`http://localhost:3006/api/livros/update/${bookId}`, formData, {
         headers: {
-          Authorization: `Bearer ${token}` // Inclui o token no cabeçalho da requisição
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data' // Define o tipo de conteúdo para envio de arquivo
         }
       });
       navigate('/livros');
@@ -127,6 +144,15 @@ const Update = () => {
               name="synopsis"
               value={book.synopsis}
               required
+            />
+          </div>
+          <div className="form-group mb-3">
+            <input
+              type="file"
+              className="form-control btn btn-info"
+              style={{ color: '#fff' }}
+              onChange={handleChange}
+              name="arquivo"
             />
           </div>
           <div className="form-group mb-3">
