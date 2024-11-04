@@ -38,15 +38,20 @@ class BookRepository{
     }
   
 
-    async findById (bookId){
-        try {
-          const sql = 'SELECT * FROM books WHERE id = ?'; // Buscar pelo id do livro, não userId
-          return await consulta(sql, [bookId]);
-        } catch (error) {
+    async findById(bookId) {
+      try {
+          const sql = 'SELECT * FROM books WHERE id = ? LIMIT 1';
+          const result = await consulta(sql, [bookId]);
+  
+          // Verifica se há um livro na resposta e retorna o primeiro item ou null
+          return result.length > 0 ? result[0] : null;
+      } catch (error) {
           console.error('Erro no método findById:', error.message);
           throw new Error('Erro ao buscar livro');
-        }
       }
+  }
+  
+  
       
 
       async update(book, id) {

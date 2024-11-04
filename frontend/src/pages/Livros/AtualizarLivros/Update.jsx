@@ -4,31 +4,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Update = () => {
-  const [book, setBook] = useState({
-    title: '', 
-    author: '', 
-    synopsis: '', 
-    link: '', 
-    imageLink: '', 
-    audience: '',
-    visibilidade: 'privado', // Inicializa como privado
-    arquivo: null // Inicializa o arquivo como nulo para edição condicional
-  });
-
+  const [book, setBook] = useState(null); // Inicializa com `null` para verificar o carregamento
   const navigate = useNavigate();
-  const { bookId } = useParams();
+  const { bookId } = useParams(); // Obtém o ID do livro dos parâmetros da URL
 
+  // Função para buscar os dados do livro ao carregar o componente
   useEffect(() => {
-    if (!bookId) {
-      console.error('bookId está indefinido');
-      return;
-    }
-
-    // Carrega os dados do livro específico
     const fetchBook = async () => {
       try {
         const response = await axios.get(`http://localhost:3006/api/livros/${bookId}`);
-        setBook(response.data); // Atualiza o estado com os dados do livro
+        console.log('Dados do livro carregados:', response.data); // Verificar dados recebidos
+        setBook(response.data); // Atualiza o estado com os dados do banco
       } catch (err) {
         console.error('Erro ao buscar o livro:', err);
       }
@@ -36,45 +22,45 @@ const Update = () => {
     fetchBook();
   }, [bookId]);
 
+  // Função para atualizar o estado conforme os campos são alterados
   const handleChange = (e) => {
-    if (e.target.name === 'arquivo') {
-      setBook((prev) => ({ ...prev, arquivo: e.target.files[0] }));
-    } else {
-      setBook((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    }
+    const { name, value, files } = e.target;
+    setBook((prev) => ({
+      ...prev,
+      [name]: name === 'arquivo' ? files[0] : value // Atualiza `arquivo` somente se for selecionado
+    }));
   };
 
+  // Função para enviar as atualizações ao backend
   const handleClick = async (e) => {
     e.preventDefault();
-    console.log('Dados para atualizar:', { bookId, book });
+    const token = localStorage.getItem('token');
 
-    const token = localStorage.getItem('token'); // Pega o token JWT armazenado no localStorage
     try {
       const formData = new FormData();
-      formData.append('title', book.title);
-      formData.append('author', book.author);
-      formData.append('synopsis', book.synopsis);
-      formData.append('link', book.link);
-      formData.append('imageLink', book.imageLink);
-      formData.append('audience', book.audience);
-      formData.append('visibilidade', book.visibilidade);
-
-      if (book.arquivo) {
-        formData.append('arquivo', book.arquivo); // Adiciona o arquivo apenas se o usuário o selecionou
+      for (let key in book) {
+        if (book[key] !== null) formData.append(key, book[key]); // Adiciona campo somente se não for `null`
       }
 
       await axios.put(`http://localhost:3006/api/livros/update/${bookId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data' // Define o tipo de conteúdo para envio de arquivo
+          'Content-Type': 'multipart/form-data'
         }
       });
+
       navigate('/livros');
     } catch (err) {
       console.log('Erro ao atualizar o livro:', err.response?.data || err.message);
-    } 
+    }
   };
 
+  // Exibe "Carregando" enquanto os dados do livro ainda não foram carregados
+  if (!book) {
+    return <div>Carregando dados do livro...</div>;
+  }
+
+  // Renderização do formulário com os dados do livro preenchidos
   return (
     <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100">
       <div className="card shadow p-4 w-100" style={{ maxWidth: '500px', backgroundColor: '#f8f9fa' }}>
@@ -87,8 +73,9 @@ const Update = () => {
               placeholder="Título"
               onChange={handleChange}
               name="title"
-              value={book.title}
+              value={book.title} // Exibe o título atual do livro
               required
+              autoComplete="off"
             />
           </div>
           <div className="form-group mb-3">
@@ -100,6 +87,7 @@ const Update = () => {
               name="author"
               value={book.author}
               required
+              autoComplete="off"
             />
           </div>
           <div className="form-group mb-3">
@@ -111,6 +99,7 @@ const Update = () => {
               name="audience"
               value={book.audience}
               required
+              autoComplete="off"
             />
           </div>
           <div className="form-group mb-3">
@@ -122,6 +111,7 @@ const Update = () => {
               name="imageLink"
               value={book.imageLink}
               required
+              autoComplete="off"
             />
           </div>
           <div className="form-group mb-3">
@@ -133,6 +123,7 @@ const Update = () => {
               name="link"
               value={book.link}
               required
+              autoComplete="off"
             />
           </div>
           <div className="form-group mb-3">
@@ -144,6 +135,7 @@ const Update = () => {
               name="synopsis"
               value={book.synopsis}
               required
+              autoComplete="off"
             />
           </div>
           <div className="form-group mb-3">

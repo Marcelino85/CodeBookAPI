@@ -24,20 +24,22 @@ class BookController{
       }
     }
 
-
     async show(req, res) {
-        try {
-            
-            const row = await BookRepository.findById(req.userId, (err, results) => {
-                if (err) return res.status(500).send('Server error');
-                res.json(results);
-              });
-            res.json(row);
-        } catch (error) {
-            console.error('Erro no método show:', error.message);
-            res.status(500).json({ error: 'Erro ao buscar livro por ID' });
-        }
-    }
+      try {
+          const bookId = req.params.id;  // Corrige para pegar o ID do livro na URL
+          const book = await BookRepository.findById(bookId);
+  
+          if (!book) {
+              return res.status(404).json({ message: 'Livro não encontrado' });
+          }
+  
+          res.json(book); // Retorna o objeto único do livro
+      } catch (error) {
+          console.error('Erro no método show:', error.message);
+          res.status(500).json({ error: 'Erro ao buscar livro por ID' });
+      }
+  }
+  
 
     async store(req, res) {
         try {
@@ -84,30 +86,30 @@ class BookController{
 
     // Nova função no BookController
     async read(req, res) {
-        try {
+      try {
           const bookId = req.params.id;
-          console.log("Book ID:", bookId); // Verifique se o ID está correto
+          console.log("Book ID para leitura:", bookId); // Log para verificar o ID recebido
+  
+          // Buscar o livro pelo ID e garantir que o campo 'arquivo' seja retornado
+          const book = await BookRepository.findById(bookId);
           
-          const result = await BookRepository.findById(bookId);
-          console.log("Resultado da busca no banco:", result);
-      
-          if (!result || !result[0] || !result[0].arquivo) {
-            return res.status(404).json({ message: 'Livro ou arquivo não encontrado.' });
+          if (!book || !book.arquivo) {
+              return res.status(404).json({ message: 'Livro ou arquivo PDF não encontrado.' });
           }
-      
-          const pdfBuffer = Buffer.from(result[0].arquivo.data); // Extraindo o buffer do PDF
-      
-          // Definir os cabeçalhos corretos para envio do PDF
+  
+          const pdfBuffer = Buffer.from(book.arquivo); // Buffer do PDF
+  
+          // Define cabeçalhos para exibir o PDF
           res.setHeader('Content-Type', 'application/pdf');
           res.setHeader('Content-Disposition', 'inline; filename="livro.pdf"');
-      
-          // Enviar o PDF como resposta
-          res.send(pdfBuffer);
-        } catch (error) {
+  
+          res.send(pdfBuffer); // Enviar o PDF como resposta
+      } catch (error) {
           console.error('Erro ao buscar o PDF:', error.message);
           res.status(500).json({ error: 'Erro ao buscar o PDF.' });
-        }
       }
+  }
+  
       
       
   
