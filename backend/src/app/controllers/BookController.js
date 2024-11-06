@@ -26,14 +26,14 @@ class BookController{
 
     async show(req, res) {
       try {
-          const bookId = req.params.id;  // Corrige para pegar o ID do livro na URL
+          const bookId = req.params.id;  // Pega o ID do livro na URL
           const book = await BookRepository.findById(bookId);
   
           if (!book) {
               return res.status(404).json({ message: 'Livro não encontrado' });
           }
   
-          res.json(book); // Retorna o objeto único do livro
+          res.json(book); // Retorna o objeto único do livro (req.userId - findById - [array]
       } catch (error) {
           console.error('Erro no método show:', error.message);
           res.status(500).json({ error: 'Erro ao buscar livro por ID' });
