@@ -11,7 +11,7 @@ bookRoutes.get('/read/:id', BookController.read);
 bookRoutes.get('/', BookController.index);  // Lista todos os livros
 bookRoutes.get('/:id', BookController.show);  // Mostra um livro específico
 bookRoutes.post('/add', upload.single('arquivo'), BookController.store);  // Adiciona livro com arquivo PDF
-bookRoutes.put('/update/:id', BookController.update);  // Atualiza um livro específico
+bookRoutes.put('/update/:id', upload.single('arquivo'), BookController.update); // Atualiza livro específico
 bookRoutes.delete('/delete/:id', BookController.delete); // Deleta um livro específico
 
 

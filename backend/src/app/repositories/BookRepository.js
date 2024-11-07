@@ -38,27 +38,43 @@ class BookRepository{
     }
   
 
-    async findById (bookId){
-        try {
-          const sql = 'SELECT * FROM books WHERE id = ?'; // Buscar pelo id do livro, não userId
-          return await consulta(sql, [bookId]);
-        } catch (error) {
+    async findById(bookId) {
+      try {
+          const sql = 'SELECT * FROM books WHERE id = ? LIMIT 1';
+          const result = await consulta(sql, [bookId]);
+  
+          // Verifica se há um livro na resposta e retorna o primeiro item ou null
+          return result.length > 0 ? result[0] : null;
+      } catch (error) {
           console.error('Erro no método findById:', error.message);
           throw new Error('Erro ao buscar livro');
+      }
+  }
+  
+  
+      
+
+      async update(book, id) {
+        try {
+          const { title, author, synopsis, link, imageLink, audience, visibilidade, arquivo } = book;
+          let sql = 'UPDATE books SET title = ?, author = ?, synopsis = ?, link = ?, imageLink = ?, audience = ?, visibilidade = ?';
+          const values = [title, author, synopsis, link, imageLink, audience, visibilidade];
+      
+          if (arquivo) {
+            sql += ', arquivo = ?';
+            values.push(arquivo);
+          }
+      
+          sql += ' WHERE id = ?';
+          values.push(id);
+      
+          return await consulta(sql, values);
+        } catch (error) {
+          console.error('Erro no método update:', error.message);
+          throw new Error('Erro ao atualizar livro');
         }
       }
       
-
-    async update(book, id){
-        try {
-            const { title, author, synopsis, link, imageLink, audience, visibilidade } = book;
-            const sql = 'UPDATE books SET title = ?, author = ?, synopsis = ?, link = ?, imageLink = ?, audience = ?, visibilidade = ? WHERE id = ?';
-            return await consulta(sql, [title, author, synopsis, link, imageLink, audience, visibilidade, id]);
-        } catch (error) {
-            console.error('Erro no método update:', error.message);
-            throw new Error('Erro ao atualizar livro');
-        }
-    }
 
     async delete(id, callback){
         try {

@@ -24,20 +24,22 @@ class BookController{
       }
     }
 
-
     async show(req, res) {
-        try {
-            
-            const row = await BookRepository.findById(req.userId, (err, results) => {
-                if (err) return res.status(500).send('Server error');
-                res.json(results);
-              });
-            res.json(row);
-        } catch (error) {
-            console.error('Erro no método show:', error.message);
-            res.status(500).json({ error: 'Erro ao buscar livro por ID' });
-        }
-    }
+      try {
+          const bookId = req.params.id;  // Pega o ID do livro na URL
+          const book = await BookRepository.findById(bookId);
+  
+          if (!book) {
+              return res.status(404).json({ message: 'Livro não encontrado' });
+          }
+  
+          res.json(book); // Retorna o objeto único do livro (req.userId - findById - [array]
+      } catch (error) {
+          console.error('Erro no método show:', error.message);
+          res.status(500).json({ error: 'Erro ao buscar livro por ID' });
+      }
+  }
+  
 
     async store(req, res) {
         try {
@@ -63,48 +65,51 @@ class BookController{
           res.status(500).json({ error: 'Erro ao criar livro' });
         }
       }
-
-    async update(req, res) {
+      
+      async update(req, res) {
         try {
-            const id = req.params.id;
-            const { title, author, synopsis, link, imageLink, audience, visibilidade } = req.body; // Desestruture os campos necessários do req.body
-            console.log('Dados recebidos no update:', { id, title, author, synopsis, link, imageLink, audience, visibilidade });
-            const updatedBook = { title, author, synopsis, link, imageLink, audience, visibilidade };
-            
-            const rows = await BookRepository.update(updatedBook, id);
-            res.json(rows);
+          const id = req.params.id;
+          const { title, author, synopsis, link, imageLink, audience, visibilidade } = req.body;
+          const arquivo = req.file ? req.file.buffer : null; // Verifica se um novo arquivo foi enviado
+      
+          const updatedBook = { title, author, synopsis, link, imageLink, audience, visibilidade, arquivo };
+          const rows = await BookRepository.update(updatedBook, id);
+          res.json({ message: 'Livro atualizado com sucesso!', rows });
         } catch (error) {
-            console.error('Erro no método update:', error.message);
-            res.status(500).json({ error: 'Erro ao atualizar livro' });
+          console.error('Erro no método update:', error.message);
+          res.status(500).json({ error: 'Erro ao atualizar livro' });
         }
-    }
+      }
+      
+      
+      
 
     // Nova função no BookController
     async read(req, res) {
-        try {
+      try {
           const bookId = req.params.id;
-          console.log("Book ID:", bookId); // Verifique se o ID está correto
+          console.log("Book ID para leitura:", bookId); // Log para verificar o ID recebido
+  
+          // Buscar o livro pelo ID e garantir que o campo 'arquivo' seja retornado
+          const book = await BookRepository.findById(bookId);
           
-          const result = await BookRepository.findById(bookId);
-          console.log("Resultado da busca no banco:", result);
-      
-          if (!result || !result[0] || !result[0].arquivo) {
-            return res.status(404).json({ message: 'Livro ou arquivo não encontrado.' });
+          if (!book || !book.arquivo) {
+              return res.status(404).json({ message: 'Livro ou arquivo PDF não encontrado.' });
           }
-      
-          const pdfBuffer = Buffer.from(result[0].arquivo.data); // Extraindo o buffer do PDF
-      
-          // Definir os cabeçalhos corretos para envio do PDF
+  
+          const pdfBuffer = Buffer.from(book.arquivo); // Buffer do PDF
+  
+          // Define cabeçalhos para exibir o PDF
           res.setHeader('Content-Type', 'application/pdf');
           res.setHeader('Content-Disposition', 'inline; filename="livro.pdf"');
-      
-          // Enviar o PDF como resposta
-          res.send(pdfBuffer);
-        } catch (error) {
+  
+          res.send(pdfBuffer); // Enviar o PDF como resposta
+      } catch (error) {
           console.error('Erro ao buscar o PDF:', error.message);
           res.status(500).json({ error: 'Erro ao buscar o PDF.' });
-        }
       }
+  }
+  
       
       
   
