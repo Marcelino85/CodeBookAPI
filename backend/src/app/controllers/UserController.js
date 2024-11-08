@@ -1,6 +1,11 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import UserRepository from '../repositories/UserRepository.js';
+import multer from 'multer';
+
+// Configuração do multer para armazenar a foto em memória
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 class UserController {
   async register(req, res) {
@@ -62,7 +67,27 @@ class UserController {
       res.status(500).json({ message: 'Erro ao fazer login.' });
     }
   }
+
+  async uploadProfilePicture(req, res) {
+    try {
+      const userId = req.userId; // Pega o ID do usuário autenticado
+      const profilePic = req.file;
+
+      if (!profilePic) {
+        return res.status(400).json({ message: 'Nenhuma foto enviada.' });
+      }
+
+      // Atualizar a foto de perfil no banco de dados
+      await UserRepository.updateProfilePicture(userId, profilePic.buffer);
+
+      res.status(200).json({ message: 'Foto de perfil atualizada com sucesso!' });
+    } catch (error) {
+      console.error('Erro ao fazer upload da foto de perfil:', error.message);
+      res.status(500).json({ message: 'Erro ao fazer upload da foto de perfil.' });
+    }
+  }
 }
 
+export { upload };
 export default new UserController();
 

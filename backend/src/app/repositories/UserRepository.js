@@ -13,6 +13,11 @@ export class UserRepository {
     const rows = await consulta(sql, [email], 'Erro ao buscar usuário pelo email.');
     return rows[0]; // Retorna o primeiro resultado (usuário encontrado)
   }
+
+  async updateProfilePicture(userId, profilePicBuffer) {
+    const sql = 'UPDATE users SET profilePic = ? WHERE id = ?';
+    await consulta(sql, [profilePicBuffer, userId], 'Erro ao atualizar foto de perfil.');
+  }
 }
 
 export default new UserRepository();
