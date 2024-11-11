@@ -70,6 +70,12 @@
   margin: 5px 0;
 }
 
+.text-center1{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .pagination {
   display: flex;
   justify-content: center;

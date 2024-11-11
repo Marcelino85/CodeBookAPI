@@ -54,6 +54,8 @@ const ReadBook = ({ token }) => {
             </button>
           </div>
         </div>
+
+
         {bookData ? (
           <iframe
             src={bookData}
@@ -65,6 +67,8 @@ const ReadBook = ({ token }) => {
         ) : (
           <div>Carregando PDF...</div>
         )}
+
+        
       </div>
     </>
   );

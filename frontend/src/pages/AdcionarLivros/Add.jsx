@@ -171,7 +171,7 @@ const Add = ({ token }) => {
             Voltar
           </button>
         </div>
-        <div className="text-center">
+        <div className="text-center2">
           {isLoading && (
             <ThreeDots
               height="30"

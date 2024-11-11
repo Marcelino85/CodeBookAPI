@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './../../components/Navbar/Navbar';
 
 const Profile = ({ token }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -36,6 +37,8 @@ const Profile = ({ token }) => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="container mt-5">
       <h2>Upload de Foto de Perfil</h2>
       <input type="file" onChange={handleFileChange} />
@@ -43,6 +46,7 @@ const Profile = ({ token }) => {
         Enviar Foto
       </button>
     </div>
+    </>
   );
 };
 
