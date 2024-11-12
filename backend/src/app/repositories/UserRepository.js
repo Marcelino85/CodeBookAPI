@@ -18,6 +18,12 @@ export class UserRepository {
     const sql = 'UPDATE users SET profilePic = ? WHERE id = ?';
     await consulta(sql, [profilePicBuffer, userId], 'Erro ao atualizar foto de perfil.');
   }
+
+  async findById(userId) {
+    const sql = 'SELECT * FROM users WHERE id = ?';
+    const rows = await consulta(sql, [userId], 'Erro ao buscar usuário pelo ID.');
+    return rows[0]; // Retorna o usuário encontrado
+  }
 }
 
 export default new UserRepository();

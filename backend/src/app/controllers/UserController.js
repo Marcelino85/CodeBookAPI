@@ -68,6 +68,28 @@ class UserController {
     }
   }
 
+  async getProfilePicture(req, res) {
+    try {
+      const userId = req.userId;
+      console.log('ID do usuário:', userId);
+  
+      const user = await UserRepository.findById(userId);
+      if (user && user.profilePic) {
+        res.setHeader('Content-Type', 'image/jpeg'); // Ajuste conforme o tipo da imagem
+        res.end(Buffer.from(user.profilePic.data)); // Envia a imagem como Buffer
+      } else {
+        res.status(404).json({ message: 'Foto de perfil não encontrada.' });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar a foto de perfil:', error.message);
+      res.status(500).json({ message: 'Erro ao buscar a foto de perfil.' });
+    }
+  }
+  
+  
+  
+
+
   async uploadProfilePicture(req, res) {
     try {
       const userId = req.userId; // Pega o ID do usuário autenticado

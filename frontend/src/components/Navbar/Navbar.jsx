@@ -1,27 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaSignInAlt, FaUserPlus, FaUserCircle } from 'react-icons/fa'; // Novo ícone de usuário
+import { FaHome, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styleNavBar.css'; // Estilizações personalizadas
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false); // Estado para controlar o dropdown
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verifica se o token está no localStorage para definir se o usuário está logado
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
+
+    if (token) {
+      const fetchProfilePic = async () => {
+        try {
+          const res = await axios.get('http://localhost:3006/api/users/profile-pic', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            responseType: 'blob',
+          });
+
+          if (res.data.size > 0) {
+            const imgURL = URL.createObjectURL(res.data);
+            setProfilePic(imgURL);
+          }
+        } catch (err) {
+          console.error('Erro ao buscar a foto de perfil:', err);
+        }
+      };
+      fetchProfilePic();
+    }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    navigate('/login'); // Redireciona para a página de login
+    setProfilePic(null);
+    navigate('/login');
   };
 
-  const handleProfileClick = () => {
+  const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
@@ -31,9 +54,6 @@ const Navbar = () => {
         <Link className="navbar-brand" to="/">
           <strong>CodeBook</strong>
         </Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
@@ -56,12 +76,27 @@ const Navbar = () => {
               </>
             ) : (
               <li className="nav-item dropdown">
-                <span className="nav-link" onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
-                  <FaUserCircle className="me-2" /> Perfil
+                <span className="nav-link" style={{ cursor: 'pointer' }} onClick={toggleDropdown}>
+                  {profilePic ? (
+                    <img
+                      src={profilePic}
+                      alt="Foto de perfil"
+                      className="profile-pic"
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        border: '2px solid white',
+                      }}
+                    />
+                  ) : (
+                    <FaUserPlus className="me-2" />
+                  )}
                 </span>
                 {showDropdown && (
                   <div className="dropdown-menu show dropdown-menu-end">
-                    <Link className="dropdown-item" to="/profile">Upload de Foto</Link>
+                    <Link className="dropdown-item" to="/profile">Atualizar Foto</Link>
                     <Link className="dropdown-item" to="/livros">Meus Livros</Link>
                     <button className="dropdown-item" onClick={handleLogout}>Logout</button>
                   </div>
