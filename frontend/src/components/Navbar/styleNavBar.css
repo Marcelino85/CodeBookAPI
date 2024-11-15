@@ -7,6 +7,8 @@
 .navbar-nav .nav-link {
   color: #faf5f5;
   margin-right: 15px;
+  margin-right: 60px;
+  
 }
 
 .navbar-nav .nav-link:hover {
@@ -17,3 +19,13 @@
   color: #007bff; /* Cor de destaque ao passar o mouse */
 
 }
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+

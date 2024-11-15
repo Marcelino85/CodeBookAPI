@@ -142,7 +142,7 @@ const Update = () => {
             <input
               type="file"
               className="form-control btn btn-info"
-              style={{ color: '#fff' }}
+              style={{ color: '#000' }}
               onChange={handleChange}
               name="arquivo"
             />

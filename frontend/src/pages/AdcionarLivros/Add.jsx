@@ -142,7 +142,7 @@ const Add = ({ token }) => {
             <input
               type="file"
               className="form-control btn btn-info"
-              style={{ color: '#fff' }} // Cor mais forte
+              style={{ color: '#000' }} // Cor mais forte
               onChange={handleChange}
               name="arquivo"
               required
@@ -171,7 +171,7 @@ const Add = ({ token }) => {
             Voltar
           </button>
         </div>
-        <div className="text-center">
+        <div className="text-center2">
           {isLoading && (
             <ThreeDots
               height="30"

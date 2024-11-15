@@ -7,6 +7,7 @@ import Books from './pages/Livros/Books';
 import Update from './pages/Livros/AtualizarLivros/Update'
 import Add from './pages/AdcionarLivros/Add';
 import LeituraLivro from './pages/LeituraLivro/ReadBook';
+import ProfileImg from './components/ProfileImg/profile'; // Importar o novo componente
 
 
  export const MyRoutes = ()=>{
@@ -37,6 +38,7 @@ import LeituraLivro from './pages/LeituraLivro/ReadBook';
         <Route path="/livros/update/:bookId" element={<Update token={token} />} />
         <Route path="/livros/add" element={<Add token={token}/>} />
         <Route path="/livros/read/:id" element={<LeituraLivro token={token}/>} />
+        <Route path="/profile" element={<ProfileImg token={token} />} /> {/* Nova rota */}
         
       </Routes>
     </Router>
