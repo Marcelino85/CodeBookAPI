@@ -28,10 +28,12 @@ class UserController {
 
       // Criar novo usuário
       const newUser = { username, email, password: hashedPassword };
-      await UserRepository.create(newUser);
+      const result = await UserRepository.create(newUser);
 
       // Gerar token JWT
-      const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: result.insertId, email: newUser.email }, // Pegue o ID gerado pelo banco
+         process.env.JWT_SECRET, 
+         { expiresIn: '1h' });
 
       // Retornar token ao frontend
       res.status(201).json({ token, message: 'Usuário criado com sucesso.' });
