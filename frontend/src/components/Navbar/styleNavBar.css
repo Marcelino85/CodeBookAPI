@@ -26,6 +26,18 @@
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  
 }
 
 
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .navbar-nav .profile-pic {
+    width: 30px;
+    height: 30px;
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 0.9rem;
+  }
+}

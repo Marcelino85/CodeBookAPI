@@ -11,32 +11,40 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false); // Estado para controlar o dropdown
   const navigate = useNavigate();
 
+  // Limpa o token ao inicializar o componente
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
-
-    if (token) {
-      const fetchProfilePic = async () => {
-        try {
-          const res = await axios.get('http://localhost:3006/api/users/profile-pic', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            responseType: 'blob',
-          });
-
-          if (res.data.size > 0) {
-            const imgURL = URL.createObjectURL(res.data);
-            setProfilePic(imgURL);
-          }
-        } catch (err) {
-          console.error('Erro ao buscar a foto de perfil:', err);
-        }
-      };
-      fetchProfilePic();
+    if (!token) {
+      localStorage.removeItem('token');
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(true);
+      fetchProfilePic(token);
     }
   }, []);
 
+  // Função para buscar a foto de perfil
+  const fetchProfilePic = async (token) => {
+    try {
+      const res = await axios.get('http://localhost:3006/api/users/profile-pic', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob',
+      });
+
+      if (res.data.size > 0) {
+        const imgURL = URL.createObjectURL(res.data);
+        setProfilePic(imgURL);
+      }
+    } catch (err) {
+      console.error('Erro ao buscar a foto de perfil:', err);
+    }
+  };
+
+
+
+  // Função para logout
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
