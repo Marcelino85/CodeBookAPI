@@ -33,7 +33,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Validação para senhas correspondentes
     if (formData.password !== formData.confirmPassword) {
       setMessage('As senhas não coincidem.');
@@ -52,29 +52,30 @@ const Register = () => {
     }
     setMessage('');
     setIsError(false);
-
+  
     try {
       setIsLoading(true); // Iniciar carregamento
       const response = await axios.post('http://localhost:3006/api/users/register', formData);
-
+  
       if (response.status === 201) {
         const { token } = response.data;
         localStorage.removeItem('token'); // Remover token anterior, se existir
         localStorage.setItem('token', token); // Salvar o token
-
+  
         setMessage('Registrado com sucesso!');
         setIsError(false);
         await sleep(1000); // Pequena pausa antes de redirecionar
-        navigate('/login'); // Redirecionar para a página de login
+        navigate('/livros'); // Alterado para redirecionar para a página de livros
       }
-
+  
     } catch (err) {
-      setMessage('Erro ao registrar usuário: ' + err.response?.data?.message || 'Erro inesperado.');
+      setMessage('Erro ao registrar usuário: ' + (err.response?.data?.message || 'Erro inesperado.'));
       setIsError(true);
     } finally {
       setIsLoading(false); // Parar carregamento
     }
   };
+  
 
   return (
     <>
