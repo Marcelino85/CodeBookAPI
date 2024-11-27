@@ -41,6 +41,7 @@ const BookModal = ({ book, onClose, navigate }) => {
 const Books = ({ token }) => {
   const [livros, setLivros] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [userId, setUserId] = useState(null); // Adicionado: Estado para armazenar o ID do usuário logado
   const [currentPage, setCurrentPage] = useState(1); // Estado para controlar a página atual
   const [booksPerPage] = useState(3); // Quantidade de livros por página
   const [isLoading, setIsLoading] = useState(true); // Novo estado de carregamento
@@ -53,6 +54,12 @@ const Books = ({ token }) => {
       const fetchAllBooks = async () => {
         try {
           setIsLoading(true); // Inicia o carregamento
+
+            // Decodificar o token JWT para obter o ID do usuário
+            const tokenPayload = JSON.parse(atob(token.split('.')[1])); // Decodifica o payload do JWT
+            setUserId(tokenPayload.id); // Armazena o userId do usuário logado  
+
+           // Buscar os livros do backend
           const res = await axios.get('http://localhost:3006/api/livros', {
             headers: { Authorization: `Bearer ${token}` },
           });
@@ -128,8 +135,14 @@ const Books = ({ token }) => {
                       </span>
                     </div>
                     <div className='btnEdt-Exc'>
-                      <button className="btn btn-warning btn-sm" onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
-                      <button className="btn btn-danger btn-sm" onClick={() => {handleDelete(book.id)}}>Excluir</button>
+                    {book.userId === userId ? ( // Verifica se o usuário logado é o autor
+                        <>
+                          <button className="btn btn-warning btn-sm" onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
+                          <button className="btn btn-danger btn-sm" onClick={() => { handleDelete(book.id) }}>Excluir</button>
+                        </>
+                      ) : (
+                        <p style={{ color: 'red', fontSize: '0.9em' }}>Você não tem autorização!</p>
+                      )}
                     </div>
                   </div>
                 ))
