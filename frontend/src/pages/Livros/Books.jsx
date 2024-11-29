@@ -63,6 +63,7 @@ const Books = ({ token }) => {
           const res = await axios.get('http://localhost:3006/api/livros', {
             headers: { Authorization: `Bearer ${token}` },
           });
+        
           setLivros(res.data);
         } catch (err) {
           console.log(err);
@@ -135,15 +136,23 @@ const Books = ({ token }) => {
                       </span>
                     </div>
                     <div className='btnEdt-Exc'>
-                    {book.userId === userId ? ( // Verifica se o usuário logado é o autor
+                      {book.userId === userId ? ( // Verifica se o usuário logado é o autor
                         <>
                           <button className="btn btn-warning btn-sm" onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
                           <button className="btn btn-danger btn-sm" onClick={() => { handleDelete(book.id) }}>Excluir</button>
                         </>
                       ) : (
-                        <p style={{ color: 'red', fontSize: '0.9em' }}>Você não tem autorização!</p>
+                        <>
+                          <button className="btn btn-warning btn-sm" disabled title="Você não tem permissão para editar este livro">
+                            Editar
+                          </button>
+                          <button className="btn btn-danger btn-sm" disabled title="Você não tem permissão para excluir este livro">
+                            Excluir
+                          </button>
+                        </>
                       )}
                     </div>
+
                   </div>
                 ))
               ) : (
