@@ -141,7 +141,7 @@ const Books = ({ token }) => {
                           <button className="btn btn-danger btn-sm" onClick={() => { handleDelete(book.id) }}>Excluir</button>
                         </>
                       ) : (
-                        <p style={{ color: 'red', fontSize: '0.9em' }}>Você não tem autorização!</p>
+                        <p style={{ color: 'red', fontSize: '0.9em' }}>Você não tem autorização, <br></br>para Editar/Excluir o Livro!</p>
                       )}
                     </div>
                   </div>
