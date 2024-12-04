@@ -1,11 +1,11 @@
 import mysql from 'mysql2'
 
 const conexao = mysql.createConnection({
-    host:'localhost',
+    host:'sql10.freesqldatabase.com',
     port:'3306',
-    user:'root',
-    password:'pedro1904',
-    database:'bookdb'
+    user:'sql10749479',
+    password:'zhYPPHSpae',
+    database:'sql10749479'
 }) 
 
 conexao.connect(err => {
