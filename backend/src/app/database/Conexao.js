@@ -1,12 +1,16 @@
 import mysql from 'mysql2'
+import dotenv from 'dotenv'
+
+dotenv.config(); // Carrega as variáveis do .env
 
 const conexao = mysql.createConnection({
-    host:'sql10.freesqldatabase.com',
-    port:'3306',
-    user:'sql10749479',
-    password:'zhYPPHSpae',
-    database:'sql10749479'
+    host: process.env.HOST,
+    port: process.env.PORT,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
 }) 
+
 
 conexao.connect(err => {
     if (err) throw err;
