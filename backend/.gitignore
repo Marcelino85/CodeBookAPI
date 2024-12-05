@@ -1,1 +1,6 @@
+# Ignorar o arquivo de configurações do ambiente
+.env
+
+# Ignorar dependências
 node_modules/
+

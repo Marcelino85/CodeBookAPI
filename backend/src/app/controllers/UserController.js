@@ -1,6 +1,11 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import UserRepository from '../repositories/UserRepository.js';
+import multer from 'multer';
+
+// Configuração do multer para armazenar a foto em memória
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 class UserController {
   async register(req, res) {
@@ -23,10 +28,12 @@ class UserController {
 
       // Criar novo usuário
       const newUser = { username, email, password: hashedPassword };
-      await UserRepository.create(newUser);
+      const result = await UserRepository.create(newUser);
 
       // Gerar token JWT
-      const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: result.insertId, email: newUser.email }, // Pegue o ID gerado pelo banco
+         process.env.JWT_SECRET, 
+         { expiresIn: '1h' });
 
       // Retornar token ao frontend
       res.status(201).json({ token, message: 'Usuário criado com sucesso.' });
@@ -62,7 +69,49 @@ class UserController {
       res.status(500).json({ message: 'Erro ao fazer login.' });
     }
   }
+
+  async getProfilePicture(req, res) {
+    try {
+      const userId = req.userId;
+      console.log('ID do usuário:', userId);
+  
+      const user = await UserRepository.findById(userId);
+      if (user && user.profilePic) {
+        res.setHeader('Content-Type', 'image/jpeg'); // Ajuste conforme o tipo da imagem
+        res.end(Buffer.from(user.profilePic.data)); // Envia a imagem como Buffer
+      } else {
+        res.status(404).json({ message: 'Foto de perfil não encontrada.' });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar a foto de perfil:', error.message);
+      res.status(500).json({ message: 'Erro ao buscar a foto de perfil.' });
+    }
+  }
+  
+  
+  
+
+
+  async uploadProfilePicture(req, res) {
+    try {
+      const userId = req.userId; // Pega o ID do usuário autenticado
+      const profilePic = req.file;
+
+      if (!profilePic) {
+        return res.status(400).json({ message: 'Nenhuma foto enviada.' });
+      }
+
+      // Atualizar a foto de perfil no banco de dados
+      await UserRepository.updateProfilePicture(userId, profilePic.buffer);
+
+      res.status(200).json({ message: 'Foto de perfil atualizada com sucesso!' });
+    } catch (error) {
+      console.error('Erro ao fazer upload da foto de perfil:', error.message);
+      res.status(500).json({ message: 'Erro ao fazer upload da foto de perfil.' });
+    }
+  }
 }
 
+export { upload };
 export default new UserController();
 

@@ -1,0 +1,10 @@
+.fixed-textarea {
+    resize: none;
+    width: 100%;
+    height: 150px;  /* Altura fixa */
+  }
+.text-center2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
