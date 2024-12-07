@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-import axios from 'axios';
+import api from '../../components/API/api'; // Substituir por api.js
 import { useNavigate } from 'react-router-dom';
 import Navbar from './../../components/Navbar/Navbar';
 import { ThreeDots } from 'react-loader-spinner'; // Importação do spinner
@@ -60,7 +60,7 @@ const Books = ({ token }) => {
             setUserId(tokenPayload.id); // Armazena o userId do usuário logado  
 
            // Buscar os livros do backend
-          const res = await axios.get('http://localhost:3006/api/livros', {
+          const res = await api.get('/api/livros', {
             headers: { Authorization: `Bearer ${token}` },
           });
           setLivros(res.data);
@@ -88,7 +88,7 @@ const Books = ({ token }) => {
 
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:3006/api/livros/delete/${id}`, {
+        await api.delete(`/api/livros/delete/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setLivros(livros.filter(book => book.id !== id));

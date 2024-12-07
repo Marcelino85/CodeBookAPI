@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaHome, FaSignInAlt, FaUserPlus, FaBars } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../API/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styleNavBar.css';
 
@@ -24,7 +24,7 @@ const Navbar = () => {
 
   const fetchProfilePic = async (token) => {
     try {
-      const res = await axios.get('http://localhost:3006/api/users/profile-pic', {
+      const res = await api.get('/api/users/profile-pic', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

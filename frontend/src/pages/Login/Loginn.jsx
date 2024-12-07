@@ -1,7 +1,7 @@
 // login.js
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../components/API/api'; // Substitua axios pelo objeto configurado
 import { useNavigate } from 'react-router-dom';
 import "./login.css";
 import Navbar from './../../components/Navbar/Navbar';
@@ -49,7 +49,7 @@ const Login = ({ setToken }) => {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:3006/api/users/login', formData);
+      const response = await api.post('/api/users/login', formData); // Chamada ajustada
       
       if (response.status === 200) {
         setToken(response.data.token);

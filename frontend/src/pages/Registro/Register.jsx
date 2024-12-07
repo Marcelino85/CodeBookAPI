@@ -1,7 +1,7 @@
 // Register.js
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../components/API/api'; // Substitua axios pelo objeto configurado
 import { useNavigate } from 'react-router-dom';
 import Navbar from './../../components/Navbar/Navbar';
 import { ThreeDots } from 'react-loader-spinner';
@@ -55,7 +55,7 @@ const Register = () => {
   
     try {
       setIsLoading(true); // Iniciar carregamento
-      const response = await axios.post('http://localhost:3006/api/users/register', formData);
+      const response = await api.post('/api/users/register', formData); // Chamada ajustada
   
       if (response.status === 201) {
         const { token } = response.data;
