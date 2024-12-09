@@ -1,7 +1,7 @@
 // login.js
 
 import React, { useEffect, useState } from 'react';
-import api from '../../components/API/api'; // Substitua axios pelo objeto configurado
+import axios from 'axios'; // Substitua axios pelo objeto configurado
 import { useNavigate } from 'react-router-dom';
 import "./login.css";
 import Navbar from './../../components/Navbar/Navbar';
@@ -49,12 +49,12 @@ const Login = ({ setToken }) => {
 
     setLoading(true);
     try {
-      const response = await api.post('/api/users/login', formData); // Chamada ajustada
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/login`, formData); // Chamada ajustada
       
       if (response.status === 200) {
         setToken(response.data.token);
         setMessage('Login bem-sucedido!');
-        await sleep(1000);
+        await sleep(3000);
         navigate('/livros');
       } else {
         setMessage('Erro ao fazer login.');

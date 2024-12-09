@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../components/API/api';
+import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from './../../components/Navbar/Navbar';
 import './readBook.css';
@@ -18,7 +18,7 @@ const ReadBook = ({ token }) => {
           return;
         }
 
-        const res = await api.get(`/api/livros/read/${id}`, {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/livros/read/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
           responseType: 'blob'
         });

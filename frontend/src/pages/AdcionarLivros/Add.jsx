@@ -1,7 +1,7 @@
 // Add.js
 
 import React, { useState } from 'react';
-import api from '../../components/API/api';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner'; // Spinner para feedback visual
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -52,7 +52,7 @@ const Add = ({ token }) => {
       formData.append('arquivo', book.arquivo);  // Adiciona o arquivo PDF no formData
       formData.append('visibilidade', book.visibilidade); // Adiciona a visibilidade no formData
 
-      await api.post("/api/livros/add", formData, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/livros/add`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'  // Indica que está enviando arquivos

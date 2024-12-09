@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../../components/API/api';
+import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -12,7 +12,7 @@ const Update = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await api.get(`/api/livros/${bookId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/livros/${bookId}`);
         console.log('Dados do livro carregados:', response.data); // Verificar dados recebidos
         setBook(response.data); // Atualiza o estado com os dados do banco
       } catch (err) {
@@ -42,7 +42,7 @@ const Update = () => {
         if (book[key] !== null) formData.append(key, book[key]); // Adiciona campo somente se não for `null`
       }
 
-      await api.put(`/api/livros/update/${bookId}`, formData, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/livros/update/${bookId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

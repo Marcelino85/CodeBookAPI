@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../components/API/api';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './../../components/Navbar/Navbar';
 import './profile.css';
@@ -14,7 +14,7 @@ const Profile = ({ token }) => {
     // Função para buscar a foto de perfil do usuário
     const fetchProfilePic = async () => {
       try {
-        const res = await api.get('/api/users/profile-pic', {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/profile-pic`, {
           headers: { Authorization: `Bearer ${token}` },
           responseType: 'blob', // Recebe a imagem como blob para manipulação correta
         });
@@ -45,7 +45,7 @@ const Profile = ({ token }) => {
       formData.append('profilePic', selectedFile);
 
       // Envia o formulário com a foto para o servidor
-      await api.post('/api/users/upload', formData, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/users/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
