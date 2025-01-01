@@ -19,6 +19,9 @@ Esta API fornece recomendações de livros de programação, incluindo informaç
 - Atualizar informações de livros existentes.
 - Remover livros da lista de recomendações.
 
+### Iniciar o projeto
+npm run dev
+
 ## Estrutura do Projeto
 
 ```plaintext
@@ -36,4 +39,5 @@ codeBookAPI/
 │   └── server.js
 ├── package.json
 └── vercel.json
+
 
