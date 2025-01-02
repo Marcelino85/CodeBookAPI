@@ -142,14 +142,7 @@ const Books = ({ token }) => {
                           <button className="btn btn-danger btn-sm" onClick={() => { handleDelete(book.id) }}>Excluir</button>
                         </>
                       ) : (
-                        <>
-                          <button className="btn btn-warning btn-sm" disabled title="Você não tem permissão para editar este livro">
-                            Editar
-                          </button>
-                          <button className="btn btn-danger btn-sm" disabled title="Você não tem permissão para excluir este livro">
-                            Excluir
-                          </button>
-                        </>
+                        <p style={{ color: 'red', fontSize: '0.9em' }}>Você não tem autorização, <br></br>para Editar/Excluir o Livro!</p>
                       )}
                     </div>
 
