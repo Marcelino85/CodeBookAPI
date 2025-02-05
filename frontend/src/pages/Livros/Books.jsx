@@ -15,7 +15,7 @@ const BookModal = ({ book, onClose, navigate }) => {
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
         <div className='imgdiv'>
-          <img src={book.imageLink} alt={book.title} />
+          <img src={book.imagelink} alt={book.title} />
         </div>
         <h2>
           {book.title}
@@ -58,11 +58,16 @@ const Books = ({ token }) => {
             // Decodificar o token JWT para obter o ID do usuário
             const tokenPayload = JSON.parse(atob(token.split('.')[1])); // Decodifica o payload do JWT
             setUserId(tokenPayload.id); // Armazena o userId do usuário logado  
+            
+            console.log("User ID extraído do token:", tokenPayload.id);
 
            // Buscar os livros do backend
-          const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/livros`, {
+          const res = await axios.get(`http://localhost:3006/api/livros`, {
             headers: { Authorization: `Bearer ${token}` },
           });
+
+          console.log("Livros carregados:", res.data); // 🛠 Log dos livros recebidos
+          
           setLivros(res.data);
         } catch (err) {
           console.log(err);
@@ -88,9 +93,11 @@ const Books = ({ token }) => {
 
     if (confirmDelete) {
       try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/api/livros/delete/${id}`, {
+        await axios.delete(`http://localhost:3006/api/livros/delete/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log("Livros carregados:", livros);
+
         setLivros(livros.filter(book => book.id !== id));
       } catch (err) {
         console.log(err);
@@ -126,28 +133,32 @@ const Books = ({ token }) => {
               </div>
             ) : (
               currentBooks.length > 0 ? (
-                currentBooks.map(book => (
-                  <div key={book.id} className="book-list-item">
-                    <div className="book-list-title" onClick={() => setSelectedBook(book)}>
-                      {book.title}
-                      <span className={`badge ${book.visibilidade === 'publico' ? 'badge-publico' : 'badge-privado'}`}>
-                        {book.visibilidade === 'publico' ? 'Público' : 'Privado'}
-                      </span>
+                currentBooks.map(book => {
+                  console.log(`Livro ID: ${book.id} | Criado por: ${book.userid} | Usuário logado: ${userId}`); // 🛠 Log antes da verificação
+
+                  return (
+                    <div key={book.id} className="book-list-item">
+                      <div className="book-list-title" onClick={() => setSelectedBook(book)}>
+                        {book.title}
+                        <span className={`badge ${book.visibilidade === 'publico' ? 'badge-publico' : 'badge-privado'}`}>
+                          {book.visibilidade === 'publico' ? 'Público' : 'Privado'}
+                        </span>
+                      </div>
+                      <div className='btnEdt-Exc'>
+                        {book.userid === userId ? ( // 🔥 Comparação corrigida
+                          <>
+                            <button className="btn btn-warning btn-sm" onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
+                            <button className="btn btn-danger btn-sm" onClick={() => { handleDelete(book.id) }}>Excluir</button>
+                          </>
+                        ) : (
+                          <p style={{ color: 'red', fontSize: '0.9em' }}>Você não tem autorização, <br></br>para Editar/Excluir o Livro!</p>
+                        )}
+                      </div>
                     </div>
-                    <div className='btnEdt-Exc'>
-                    {book.userId === userId ? ( // Verifica se o usuário logado é o autor
-                        <>
-                          <button className="btn btn-warning btn-sm" onClick={() => navigate(`/livros/update/${book.id}`)}>Editar</button>
-                          <button className="btn btn-danger btn-sm" onClick={() => { handleDelete(book.id) }}>Excluir</button>
-                        </>
-                      ) : (
-                        <p style={{ color: 'red', fontSize: '0.9em' }}>Você não tem autorização, <br></br>para Editar/Excluir o Livro!</p>
-                      )}
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
-                <p>Nenhum livro encontrado.</p> // Mensagem caso não haja livros
+                <p>Nenhum livro encontrado.</p> 
               )
             )}
 

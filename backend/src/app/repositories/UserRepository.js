@@ -18,7 +18,7 @@ export class UserRepository {
 
   // Atualizar foto de perfil
   async updateProfilePicture(userId, profilePicBuffer) {
-    const sql = 'UPDATE users SET profilePic = $1 WHERE id = $2';
+    const sql = 'UPDATE users SET profilepic = $1 WHERE id = $2';
     await consulta(sql, [profilePicBuffer, userId], 'Erro ao atualizar foto de perfil.');
   }
 
