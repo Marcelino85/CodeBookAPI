@@ -42,7 +42,7 @@ const Update = () => {
         if (book[key] !== null) formData.append(key, book[key]); // Adiciona campo somente se não for `null`
       }
 
-      await axios.put(`http://localhost:3006/api/livros/update/${bookId}`, formData, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/livros/update/${bookId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -108,8 +108,8 @@ const Update = () => {
               className="form-control"
               placeholder="Capa (link da imagem)"
               onChange={handleChange}
-              name="imageLink"
-              value={book.imageLink}
+              name="imagelink"
+              value={book.imagelink}
               required
               autoComplete="off"
             />

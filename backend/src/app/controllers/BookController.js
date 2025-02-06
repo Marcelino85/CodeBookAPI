@@ -69,10 +69,10 @@ class BookController{
       async update(req, res) {
         try {
           const id = req.params.id;
-          const { title, author, synopsis, link, imageLink, audience, visibilidade } = req.body;
+          const { title, author, synopsis, link, imagelink, audience, visibilidade } = req.body;
           const arquivo = req.file ? req.file.buffer : null; // Verifica se um novo arquivo foi enviado
       
-          const updatedBook = { title, author, synopsis, link, imageLink, audience, visibilidade, arquivo };
+          const updatedBook = { title, author, synopsis, link, imagelink, audience, visibilidade, arquivo };
           const rows = await BookRepository.update(updatedBook, id);
           res.json({ message: 'Livro atualizado com sucesso!', rows });
         } catch (error) {
