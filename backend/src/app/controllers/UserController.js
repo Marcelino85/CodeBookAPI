@@ -70,9 +70,9 @@ class UserController {
       const userId = req.userId;
 
       const user = await UserRepository.findById(userId);
-      if (user && user.profilePic) {
+      if (user && user.profilepic) {
         res.setHeader('Content-Type', 'image/jpeg'); // Ajuste para o tipo correto
-        res.end(Buffer.from(user.profilePic, 'binary'));
+        res.end(Buffer.from(user.profilepic, 'binary'));
       } else {
         res.status(404).json({ message: 'Foto de perfil não encontrada.' });
       }
