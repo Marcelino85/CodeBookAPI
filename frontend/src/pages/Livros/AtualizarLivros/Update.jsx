@@ -12,7 +12,7 @@ const Update = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await axios.get(`http://localhost:3006/api/livros/${bookId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/livros/${bookId}`);
         console.log('Dados do livro carregados:', response.data); // Verificar dados recebidos
         setBook(response.data); // Atualiza o estado com os dados do banco
       } catch (err) {

@@ -62,7 +62,7 @@ const Books = ({ token }) => {
             console.log("User ID extraído do token:", tokenPayload.id);
 
            // Buscar os livros do backend
-          const res = await axios.get(`http://localhost:3006/api/livros`, {
+          const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/livros`, {
             headers: { Authorization: `Bearer ${token}` },
           });
 
@@ -93,7 +93,7 @@ const Books = ({ token }) => {
 
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:3006/api/livros/delete/${id}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/livros/delete/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Livros carregados:", livros);

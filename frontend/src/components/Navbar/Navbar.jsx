@@ -24,7 +24,7 @@ const Navbar = () => {
 
   const fetchProfilePic = async (token) => {
     try {
-      const res = await axios.get(`http://localhost:3006/api/users/profile-pic`, {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/profile-pic`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

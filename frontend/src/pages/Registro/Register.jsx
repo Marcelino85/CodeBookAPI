@@ -55,7 +55,7 @@ const Register = () => {
   
     try {
       setIsLoading(true); // Iniciar carregamento
-      const response = await axios.post(`http://localhost:3006/api/users/register`, formData); // Chamada ajustada
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`, formData); // Chamada ajustada
   
       if (response.status === 201) {
         const { token } = response.data;

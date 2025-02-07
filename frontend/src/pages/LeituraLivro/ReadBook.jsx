@@ -18,7 +18,7 @@ const ReadBook = ({ token }) => {
           return;
         }
 
-        const res = await axios.get(`http://localhost:3006/api/livros/read/${id}`, {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/livros/read/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
           responseType: 'blob'
         });
