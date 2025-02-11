@@ -13,7 +13,7 @@ const Add = ({ token }) => {
     author: '', 
     synopsis: '', 
     link: '', 
-    imageLink: '', 
+    imagelink: '', 
     audience: '',
     arquivo: null,  // Armazenar o arquivo PDF aqui
     visibilidade: 'privado' // Novo estado para visibilidade
@@ -47,7 +47,7 @@ const Add = ({ token }) => {
       formData.append('author', book.author);
       formData.append('synopsis', book.synopsis);
       formData.append('link', book.link);
-      formData.append('imageLink', book.imageLink);
+      formData.append('imagelink', book.imagelink);
       formData.append('audience', book.audience);
       formData.append('arquivo', book.arquivo);  // Adiciona o arquivo PDF no formData
       formData.append('visibilidade', book.visibilidade); // Adiciona a visibilidade no formData
@@ -112,7 +112,7 @@ const Add = ({ token }) => {
               placeholder="Capa (link da imagem)"
               onChange={handleChange}
               name="imageLink"
-              value={book.imageLink}
+              value={book.imagelink}
               required
             />
           </div>

@@ -108,8 +108,8 @@ const Update = () => {
               className="form-control"
               placeholder="Capa (link da imagem)"
               onChange={handleChange}
-              name="imageLink"
-              value={book.imageLink}
+              name="imagelink"
+              value={book.imagelink}
               required
               autoComplete="off"
             />
